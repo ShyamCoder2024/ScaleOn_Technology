@@ -172,3 +172,63 @@ html {
   backface-visibility: hidden;
   will-change: transform;
 }
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/* Shimmer animation for loading states */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* CSS Containment for better paint performance */
+section {
+  contain: layout style;
+}
+
+/* Optimize backdrop-filter on mobile (expensive GPU operation) */
+@media screen and (max-width: 768px) {
+
+  .backdrop-blur-md,
+  .backdrop-blur-sm,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
+  /* Reduce animation complexity on mobile */
+  .glass-panel,
+  .dark-glass {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimize transform animations for GPU */
+.animate-scroll,
+.animate-spin,
+.animate-pulse {
+  will-change: transform;
+  transform: translateZ(0);
+}

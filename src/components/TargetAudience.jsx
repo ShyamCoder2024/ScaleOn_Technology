@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Building2, Utensils, Stethoscope, Briefcase, User, XCircle, ArrowRight } from 'lucide-react';
 import { cn } from "../lib/utils";

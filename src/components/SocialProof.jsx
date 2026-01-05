@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Quote } from 'lucide-react';
 import { Counter } from './ui/counter';
@@ -53,7 +53,7 @@ const testimonials = [
     },
 ];
 
-const TestimonialCard = ({ data, theme }) => (
+const TestimonialCard = memo(({ data, theme }) => (
     <div className="mb-6 break-inside-avoid">
         <div className={cn(
             "rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all duration-1000",
@@ -91,9 +91,10 @@ const TestimonialCard = ({ data, theme }) => (
             </div>
         </div>
     </div>
-);
+));
+TestimonialCard.displayName = 'TestimonialCard';
 
-const InfiniteColumn = ({ children, duration = 20, className = "", theme }) => (
+const InfiniteColumn = memo(({ children, duration = 20, className = "", theme }) => (
     <div className={`relative overflow-hidden ${className}`}>
         <motion.div
             initial={{ y: 0 }}
@@ -103,7 +104,8 @@ const InfiniteColumn = ({ children, duration = 20, className = "", theme }) => (
                 ease: "linear",
                 repeat: Infinity,
             }}
-            className="flex flex-col"
+            style={{ willChange: 'transform' }}
+            className="flex flex-col gpu-accel"
         >
             {children}
             {children}
@@ -119,7 +121,8 @@ const InfiniteColumn = ({ children, duration = 20, className = "", theme }) => (
             theme === 'dark' ? "bg-gradient-to-t from-[#050505] to-transparent" : "bg-gradient-to-t from-white to-transparent"
         )} />
     </div>
-);
+));
+InfiniteColumn.displayName = 'InfiniteColumn';
 
 const SocialProof = ({ setTheme, theme }) => {
     const list1 = testimonials.slice(0, 3);

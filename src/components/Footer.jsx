@@ -8,7 +8,7 @@ const Footer = () => {
 
                     {/* Brand Column */}
                     <div className="col-span-1 md:col-span-1 flex flex-col items-center md:items-start text-center md:text-left">
-                        <img src="/logo.png" alt="ScaleOn" loading="lazy" className="h-8 md:h-12 w-auto mb-4 opacity-90 invert" />
+                        <img src="/logo.png" alt="ScaleOn" loading="lazy" decoding="async" fetchPriority="low" className="h-8 md:h-12 w-auto mb-4 opacity-90 invert" />
                         <p className="text-zinc-500 text-xs leading-relaxed mb-6 max-w-xs mx-auto md:mx-0">
                             Building the future of business automation. We replace manual workflows with intelligent systems.
                         </p>

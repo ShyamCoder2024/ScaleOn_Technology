@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, memo } from "react";
 import { useInView, useMotionValue, useSpring } from "framer-motion";
 
-export const Counter = ({
+export const Counter = memo(({
     value,
     direction = "up",
     delay = 0,
@@ -33,4 +33,6 @@ export const Counter = ({
     }, [springValue, decimalPlaces, suffix, prefix]);
 
     return <span ref={ref} className={className} />;
-};
+});
+
+Counter.displayName = 'Counter';
