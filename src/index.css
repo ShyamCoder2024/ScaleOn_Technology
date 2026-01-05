@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family-sans: 'Inter', system-ui, sans-serif;
+  --font-family-display: 'Montserrat', system-ui, sans-serif;
+  --color-primary: #2563EB;
+  --color-primary-dark: #1D4ED8;
+  --color-dark: #101418;
+  --color-success: #16A34A;
+
+  --animate-scroll: scroll 40s linear infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(calc(-100% - 2rem));
+    }
+  }
+}
+
+.font-montserrat {
+  font-family: var(--font-family-display);
+}
+
+/* Mobile H1 Typography Utility */
+@media (max-width: 768px) {
+  .mobile-h1 {
+    font-size: 36px !important;
+    line-height: 1.1 !important;
+    max-height: calc(36px * 1.1 * 4);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+  }
+}
+
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+  background-color: #FAFAFA;
+  /* Slightly warmer/premium white */
+  color: #101418;
+}
+
+/* Fix bottom overscroll to match footer */
+html {
+  background-color: #050505;
+  overscroll-behavior-y: none;
+  /* Prevent rubber-banding on Mac/iOS */
+  -webkit-text-size-adjust: 100%;
+  /* Prevent font scaling in landscape */
+}
+
+/* Mobile Optimizations */
+@media screen and (max-width: 768px) {
+
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+    /* Prevent iOS zoom on focus */
+  }
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  /* Remove gray tap highlight on mobile */
+}
+
+/* Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E4E4E7;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D4D4D8;
+}
+
+/* Utilities */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.dark-glass {
+  background: rgba(16, 20, 24, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Typing cursor animation */
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.typing-cursor {
+  animation: blink 1s infinite;
+}
+
+/* Infinite Scroll Utility */
+.scroller {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.scroller[data-animated="true"] .scroller__inner {
+  width: max-content;
+  flex-wrap: nowrap;
+  animation: scroll var(--animation-duration, 40s) linear infinite;
+}
+
+.scroller[data-direction="right"] .scroller__inner {
+  animation-direction: reverse;
+}
+
+.scroller[data-speed="fast"] {
+  --animation-duration: 20s;
+}
+
+.scroller[data-speed="slow"] {
+  --animation-duration: 60s;
+}
+
+/* GPU acceleration */
+.gpu-accel {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
