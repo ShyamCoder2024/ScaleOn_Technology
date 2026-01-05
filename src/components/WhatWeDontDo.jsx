@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useRef, memo } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { X } from 'lucide-react';
-import { useRef } from 'react';
 
 const NegativeItem = ({ text, index }) => {
     const ref = useRef(null);
@@ -86,4 +85,4 @@ const WhatWeDontDo = () => {
     );
 };
 
-export default WhatWeDontDo;
+export default memo(WhatWeDontDo);

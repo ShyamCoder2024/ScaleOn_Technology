@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useInView } from 'framer-motion';
+import React, { useRef, useState, useEffect, memo } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 const TypingHeadline = ({ text, className }) => {
@@ -203,4 +203,4 @@ const CTA = () => {
     );
 };
 
-export default CTA;
+export default memo(CTA);

@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 import { cn } from "../../lib/utils";
 
-const TextRevealByWord = ({
+const TextRevealByWord = memo(({
     text,
     className,
 }) => {
@@ -13,6 +13,7 @@ const TextRevealByWord = ({
 
     const { scrollYProgress } = useScroll({
         target: targetRef,
+        layoutEffect: false // Better mobile performance
     });
     const words = text.split(" ");
 
@@ -24,7 +25,6 @@ const TextRevealByWord = ({
                 }
             >
                 <p
-                    ref={targetRef}
                     className={
                         "flex flex-wrap p-5 text-2xl font-bold text-black/20 dark:text-white/20 md:p-8 md:text-3xl lg:p-10 lg:text-4xl xl:text-5xl"
                     }
@@ -42,12 +42,13 @@ const TextRevealByWord = ({
             </div>
         </div>
     );
-};
+});
+TextRevealByWord.displayName = 'TextRevealByWord';
 
-const Word = ({ children, progress, range }) => {
+const Word = memo(({ children, progress, range }) => {
     const opacity = useTransform(progress, range, [0, 1]);
     return (
-        <span className="xl:lg-3 relative mx-1 lg:mx-2.5">
+        <span className="xl:lg-3 relative mx-1 lg:mx-2.5" style={{ willChange: 'opacity' }}>
             <span className={"absolute opacity-30"}>{children}</span>
             <motion.span
                 style={{ opacity: opacity }}
@@ -57,6 +58,7 @@ const Word = ({ children, progress, range }) => {
             </motion.span>
         </span>
     );
-};
+});
+Word.displayName = 'Word';
 
 export { TextRevealByWord };

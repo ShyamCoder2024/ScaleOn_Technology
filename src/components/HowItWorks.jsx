@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Settings, TrendingUp, Check } from 'lucide-react';
 import { AnimatedGridPattern } from "./ui/animated-grid-pattern";
@@ -215,4 +215,4 @@ const HowItWorks = () => {
     );
 };
 
-export default HowItWorks;
+export default memo(HowItWorks);

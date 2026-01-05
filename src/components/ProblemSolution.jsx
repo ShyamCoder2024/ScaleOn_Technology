@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XCircle, CheckCircle2, ArrowRight } from 'lucide-react';
 import { ScrollReveal } from './ui/scroll-reveal';
@@ -182,4 +182,4 @@ const ProblemSolution = () => {
     );
 };
 
-export default ProblemSolution;
+export default memo(ProblemSolution);

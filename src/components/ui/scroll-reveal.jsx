@@ -1,12 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, memo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { cn } from '../../lib/utils';
 
-export const ScrollReveal = ({ text, className }) => {
+export const ScrollReveal = memo(({ text, className }) => {
     const container = useRef(null);
     const { scrollYProgress } = useScroll({
         target: container,
-        offset: ["start 0.9", "start 0.25"]
+        offset: ["start 0.9", "start 0.25"],
+        layoutEffect: false // Better mobile performance
     });
 
     const words = text.split(" ");
@@ -24,14 +25,16 @@ export const ScrollReveal = ({ text, className }) => {
             })}
         </h2>
     );
-};
+});
+ScrollReveal.displayName = 'ScrollReveal';
 
-const Word = ({ children, progress, range }) => {
+const Word = memo(({ children, progress, range }) => {
     const opacity = useTransform(progress, range, [0.1, 1]);
     return (
-        <span className="relative inline-block">
+        <span className="relative inline-block" style={{ willChange: 'opacity' }}>
             <span className="absolute opacity-10">{children}</span>
             <motion.span style={{ opacity }}>{children}</motion.span>
         </span>
     );
-};
+});
+Word.displayName = 'Word';

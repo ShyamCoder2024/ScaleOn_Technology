@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, MessageCircle } from 'lucide-react';
 
@@ -148,4 +148,4 @@ const FAQ = () => {
     );
 };
 
-export default FAQ;
+export default memo(FAQ);

@@ -214,6 +214,8 @@ html {
 /* CSS Containment for better paint performance */
 section {
   contain: layout style;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
 }
 
 /* Optimize backdrop-filter on mobile (expensive GPU operation) */
@@ -256,4 +258,49 @@ section {
 .animate-pulse {
   will-change: transform;
   transform: translateZ(0);
+}
+
+/* ===== MOBILE-SPECIFIC PERFORMANCE ===== */
+@media screen and (max-width: 768px) {
+
+  /* Faster animations on mobile */
+  * {
+    transition-duration: 0.2s !important;
+  }
+
+  /* Force hardware acceleration on animated elements */
+  [class*="animate-"],
+  [class*="motion"],
+  .transform {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Optimize scroll performance */
+  html,
+  body {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Reduce motion complexity - faster, simpler transitions */
+  .transition-all {
+    transition-property: opacity, transform !important;
+  }
+}
+
+/* Low-power device optimizations */
+@media screen and (max-width: 480px) {
+
+  /* Even faster animations for small phones */
+  * {
+    transition-duration: 0.15s !important;
+  }
+
+  /* Simplify shadows on low-power devices */
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Building2, Utensils, Stethoscope, Briefcase, ShoppingBag, Database, Zap, Globe } from 'lucide-react';
 
 const industries = [
@@ -54,4 +54,4 @@ const TrustBar = () => {
     );
 };
 
-export default TrustBar;
+export default memo(TrustBar);

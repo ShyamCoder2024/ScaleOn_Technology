@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Mic2, MessageSquare, GraduationCap, ArrowRight, Zap, Grip } from 'lucide-react';
 
@@ -160,4 +160,4 @@ const GrowthEngines = () => {
     );
 };
 
-export default GrowthEngines;
+export default memo(GrowthEngines);
