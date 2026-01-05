@@ -21,7 +21,13 @@ export function AnimatedGridPattern({
     const id = useId();
     const containerRef = useRef(null);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-    const [squares, setSquares] = useState(() => generateSquares(numSquares));
+
+    // Mobile optimization: reduce squares and slow down animation
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const optimizedNumSquares = isMobile ? Math.min(numSquares, 10) : numSquares;
+    const optimizedDuration = isMobile ? duration * 1.5 : duration;
+
+    const [squares, setSquares] = useState(() => generateSquares(optimizedNumSquares));
 
     function getPos() {
         return [
@@ -55,9 +61,9 @@ export function AnimatedGridPattern({
     // Update squares to animate in
     useEffect(() => {
         if (dimensions.width && dimensions.height) {
-            setSquares(generateSquares(numSquares));
+            setSquares(generateSquares(optimizedNumSquares));
         }
-    }, [dimensions, numSquares]);
+    }, [dimensions, optimizedNumSquares]);
 
     // Resize observer to update container dimensions
     useEffect(() => {
@@ -114,7 +120,7 @@ export function AnimatedGridPattern({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: maxOpacity }}
                         transition={{
-                            duration,
+                            duration: optimizedDuration,
                             repeat: 1,
                             delay: index * 0.1,
                             repeatType: "reverse",

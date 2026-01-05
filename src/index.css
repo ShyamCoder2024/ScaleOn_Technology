@@ -186,6 +186,31 @@ html {
   }
 }
 
+/* Vertical scroll animation for testimonials */
+@keyframes scrollUp {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* Touch device optimizations - disable hover-based effects */
+@media (hover: none) and (pointer: coarse) {
+
+  /* Disable mouse-following spotlight effects on touch devices */
+  .spotlight-effect {
+    opacity: 0 !important;
+  }
+
+  /* Reduce animation complexity */
+  .animate-scroll {
+    animation-duration: 60s !important;
+  }
+}
+
 /* CSS Containment for better paint performance */
 section {
   contain: layout style;

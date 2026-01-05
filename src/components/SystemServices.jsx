@@ -24,7 +24,7 @@ const MagicCard = ({ icon: Icon, title, description, delay }) => {
             className="relative overflow-hidden rounded-3xl bg-white border border-zinc-200 p-8 h-full transition-all duration-300 hover:shadow-2xl group"
         >
             <div
-                className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100"
+                className="spotlight-effect pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100"
                 style={{
                     background: `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(99, 102, 241, 0.1), transparent 40%)`
                 }}

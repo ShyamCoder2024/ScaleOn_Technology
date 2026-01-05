@@ -39,20 +39,23 @@ export const SplineScene = memo(({ scene, className }) => {
     }, []);
 
     return (
-        <div ref={containerRef} className={`${className} relative`}>
+        <div ref={containerRef} className={`${className} relative`} style={{ position: 'relative' }}>
             {!isVisible ? (
                 <LoadingSkeleton />
             ) : (
                 <Suspense fallback={<LoadingSkeleton />}>
-                    <Spline
-                        scene={scene}
-                        className={className}
-                        onLoad={() => setHasLoaded(true)}
-                        style={{
-                            opacity: hasLoaded ? 1 : 0,
-                            transition: 'opacity 0.5s ease-out'
-                        }}
-                    />
+                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                        <Spline
+                            scene={scene}
+                            className={className}
+                            onLoad={() => setHasLoaded(true)}
+                            style={{
+                                opacity: hasLoaded ? 1 : 0,
+                                transition: 'opacity 0.5s ease-out',
+                                position: 'relative'
+                            }}
+                        />
+                    </div>
                     {/* Show skeleton until fully loaded */}
                     {!hasLoaded && (
                         <div className="absolute inset-0">

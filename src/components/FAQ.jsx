@@ -49,7 +49,7 @@ const FAQItem = ({ question, answer, isOpen, onClick, index }) => {
 };
 
 const FAQ = () => {
-    const [openIndex, setOpenIndex] = useState(0);
+    const [openIndex, setOpenIndex] = useState(null);
 
     const faqs = [
         {

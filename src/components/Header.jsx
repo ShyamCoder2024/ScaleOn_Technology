@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = ({ theme }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const { scrollY } = useScroll();
 
-    useMotionValueEvent(scrollY, "change", (latest) => {
-        setScrolled(latest > 50);
-    });
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll(); // Initial check
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const isDark = theme === 'dark';
 

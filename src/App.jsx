@@ -21,9 +21,10 @@ function App() {
   // Refs for dark theme sections
   const growthEnginesRef = useRef(null);
   const whatWeDontDoRef = useRef(null);
+  const ticking = useRef(false); // For scroll throttling
 
-  // Scroll-based theme detection - works in both directions
-  const handleScroll = useCallback(() => {
+  // Scroll-based theme detection with RAF throttling
+  const updateTheme = useCallback(() => {
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
     const viewportCenter = scrollY + windowHeight / 2;
@@ -48,16 +49,24 @@ function App() {
     }
 
     setTheme(shouldBeDark ? 'dark' : 'light');
+    ticking.current = false;
   }, []);
+
+  const handleScroll = useCallback(() => {
+    if (!ticking.current) {
+      requestAnimationFrame(updateTheme);
+      ticking.current = true;
+    }
+  }, [updateTheme]);
 
   useEffect(() => {
     // Use passive listener for better scroll performance
     window.addEventListener('scroll', handleScroll, { passive: true });
     // Initial check
-    handleScroll();
+    updateTheme();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+  }, [handleScroll, updateTheme]);
 
   return (
     <div className={cn(

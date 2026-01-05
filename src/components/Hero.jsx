@@ -40,7 +40,7 @@ const Hero = memo(() => {
 
                     <div className="flex flex-col md:flex-row">
                         {/* LEFT on Desktop / TOP on Mobile - 3D Robot */}
-                        <div className="w-full md:flex-1 h-[250px] sm:h-[320px] md:h-[550px] lg:h-[600px] relative z-10 bg-gradient-to-br from-slate-50 to-blue-50 will-change-transform">
+                        <div className="w-full md:flex-1 h-[250px] sm:h-[320px] md:h-[550px] lg:h-[600px] relative z-10 bg-gradient-to-br from-slate-50 to-blue-50 will-change-transform" style={{ position: 'relative' }}>
                             <SplineScene
                                 scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
                                 className="w-full h-full"

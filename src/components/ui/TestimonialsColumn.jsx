@@ -1,23 +1,17 @@
 "use client";
-import React from "react";
-import { motion } from "motion/react";
+import React, { memo } from "react";
 
-export const TestimonialsColumn = (props) => {
+export const TestimonialsColumn = memo((props) => {
     const { className, testimonials, duration } = props;
 
     return (
         <div className={className}>
-            <motion.div
-                animate={{
-                    translateY: "-50%",
-                }}
-                transition={{
-                    duration: duration || 10,
-                    repeat: Infinity,
-                    ease: "linear",
-                    repeatType: "loop",
-                }}
+            <div
                 className="flex flex-col gap-6 pb-6"
+                style={{
+                    animation: `scrollUp ${duration || 10}s linear infinite`,
+                    willChange: 'transform',
+                }}
             >
                 {[
                     ...new Array(2).fill(0).map((_, index) => (
@@ -36,7 +30,9 @@ export const TestimonialsColumn = (props) => {
                         </React.Fragment>
                     )),
                 ]}
-            </motion.div>
+            </div>
         </div>
     );
-};
+});
+
+TestimonialsColumn.displayName = 'TestimonialsColumn';
