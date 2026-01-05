@@ -51,7 +51,7 @@ const MagicCard = ({ icon: Icon, title, description, delay }) => {
     );
 };
 
-const SystemServices = ({ setTheme }) => {
+const SystemServices = () => {
     const services = [
         {
             icon: PhoneCall,
@@ -78,11 +78,6 @@ const SystemServices = ({ setTheme }) => {
 
     return (
         <section className="py-16 md:py-32 relative overflow-hidden">
-            <motion.div
-                onViewportEnter={() => setTheme('light')}
-                viewport={{ margin: "-45% 0px -45% 0px" }}
-                className="absolute inset-0 pointer-events-none"
-            />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-20">
                     <motion.div

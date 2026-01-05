@@ -69,7 +69,7 @@ const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className 
     );
 };
 
-const GrowthEngines = ({ setTheme }) => {
+const GrowthEngines = () => {
     const products = [
         {
             icon: Mic2,
@@ -97,13 +97,6 @@ const GrowthEngines = ({ setTheme }) => {
     return (
 
         <section className="py-16 md:py-32 relative overflow-hidden">
-            {/* Viewport detector for theme switching */}
-            <motion.div
-                onViewportEnter={() => setTheme('dark')}
-                viewport={{ margin: "-45% 0px -45% 0px" }}
-                className="absolute inset-0 pointer-events-none"
-            />
-
             {/* Subtly animated grid background */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 

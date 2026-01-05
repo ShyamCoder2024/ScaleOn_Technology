@@ -75,7 +75,7 @@ const StepCard = ({ icon: Icon, title, description, stepNumber, isActive, isComp
     );
 };
 
-const HowItWorks = ({ setTheme }) => {
+const HowItWorks = () => {
     const [activeStep, setActiveStep] = useState(0);
 
     // Sequence:
@@ -133,11 +133,6 @@ const HowItWorks = ({ setTheme }) => {
 
     return (
         <section className="py-16 md:py-32 relative overflow-hidden">
-            <motion.div
-                onViewportEnter={() => setTheme('light')}
-                viewport={{ margin: "-45% 0px -45% 0px" }}
-                className="absolute inset-0 pointer-events-none"
-            />
             <AnimatedGridPattern
                 numSquares={30}
                 maxOpacity={0.1}

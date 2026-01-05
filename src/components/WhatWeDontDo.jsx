@@ -29,7 +29,7 @@ const NegativeItem = ({ text, index }) => {
     );
 };
 
-const WhatWeDontDo = ({ setTheme }) => {
+const WhatWeDontDo = () => {
     const negatives = [
         "We don’t sell generic software.",
         "We don’t force unnecessary tools.",
@@ -39,11 +39,6 @@ const WhatWeDontDo = ({ setTheme }) => {
 
     return (
         <section className="py-16 md:py-32 text-white relative overflow-hidden">
-            <motion.div
-                onViewportEnter={() => setTheme('dark')}
-                viewport={{ margin: "-45% 0px -45% 0px" }}
-                className="absolute inset-0 pointer-events-none"
-            />
             {/* Background Noise Texture */}
             <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none brightness-100 contrast-150 mix-blend-overlay" />
 

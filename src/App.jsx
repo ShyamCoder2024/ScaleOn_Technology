@@ -12,15 +12,56 @@ import FAQ from './components/FAQ';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { cn } from './lib/utils';
 
 function App() {
   const [theme, setTheme] = useState('light');
 
+  // Refs for dark theme sections
+  const growthEnginesRef = useRef(null);
+  const whatWeDontDoRef = useRef(null);
+
+  // Scroll-based theme detection - works in both directions
+  const handleScroll = useCallback(() => {
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const viewportCenter = scrollY + windowHeight / 2;
+
+    let shouldBeDark = false;
+
+    // Check if viewport center is within any dark section
+    const darkSections = [growthEnginesRef.current, whatWeDontDoRef.current];
+
+    for (const section of darkSections) {
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        const sectionTop = scrollY + rect.top;
+        const sectionBottom = sectionTop + rect.height;
+
+        // If viewport center is within this section, it should be dark
+        if (viewportCenter >= sectionTop && viewportCenter <= sectionBottom) {
+          shouldBeDark = true;
+          break;
+        }
+      }
+    }
+
+    setTheme(shouldBeDark ? 'dark' : 'light');
+  }, []);
+
+  useEffect(() => {
+    // Use passive listener for better scroll performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Initial check
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
   return (
     <div className={cn(
-      "min-h-screen transition-colors duration-1000 ease-in-out relative",
+      "min-h-screen transition-colors duration-500 ease-out relative",
       theme === 'dark' ? "bg-[#050505]" : "bg-white"
     )}>
       <Header theme={theme} />
@@ -29,11 +70,15 @@ function App() {
         <TrustBar />
         <TargetAudience />
         <ProblemSolution />
-        <SystemServices setTheme={setTheme} />
-        <GrowthEngines setTheme={setTheme} />
-        <HowItWorks setTheme={setTheme} />
-        <WhatWeDontDo setTheme={setTheme} />
-        <SocialProof setTheme={setTheme} theme={theme} />
+        <SystemServices />
+        <div ref={growthEnginesRef}>
+          <GrowthEngines />
+        </div>
+        <HowItWorks />
+        <div ref={whatWeDontDoRef}>
+          <WhatWeDontDo />
+        </div>
+        <SocialProof theme={theme} />
         <FAQ />
         <CTA />
       </main>

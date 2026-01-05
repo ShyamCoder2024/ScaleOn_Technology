@@ -124,18 +124,13 @@ const InfiniteColumn = memo(({ children, duration = 20, className = "", theme })
 ));
 InfiniteColumn.displayName = 'InfiniteColumn';
 
-const SocialProof = ({ setTheme, theme }) => {
+const SocialProof = ({ theme }) => {
     const list1 = testimonials.slice(0, 3);
     const list2 = testimonials.slice(3, 6);
     const list3 = testimonials.slice(6, 9);
 
     return (
         <section id="testimonials" className="py-16 md:py-24 relative overflow-hidden scroll-mt-24">
-            <motion.div
-                onViewportEnter={() => setTheme('light')}
-                viewport={{ margin: "-45% 0px -45% 0px" }}
-                className="absolute inset-0 pointer-events-none"
-            />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
                 {/* Stats */}
