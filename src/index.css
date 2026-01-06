@@ -50,12 +50,22 @@ html {
   scroll-behavior: smooth;
 }
 
+/* On mobile, disable scroll-behavior:smooth to avoid jank */
+@media screen and (max-width: 768px) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
   font-family: 'Inter', system-ui, sans-serif;
   overflow-x: hidden;
   background-color: #FAFAFA;
   /* Slightly warmer/premium white */
   color: #101418;
+  /* GPU acceleration for smoother scrolling */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* Fix bottom overscroll to match footer */
@@ -66,6 +76,7 @@ html {
   -webkit-text-size-adjust: 100%;
   /* Prevent font scaling in landscape */
 }
+
 
 /* Mobile Optimizations */
 @media screen and (max-width: 768px) {
