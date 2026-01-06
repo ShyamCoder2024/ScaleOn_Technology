@@ -1,10 +1,7 @@
-import React, { useRef, memo } from 'react';
+import React, { useRef, memo, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
-// Check if device supports hover (desktop)
-const supportsHover = typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
-
-const NegativeItem = ({ text, index, scrollProgress }) => {
+const NegativeItem = ({ text, index, scrollProgress, isTouchDevice }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
 
@@ -38,13 +35,13 @@ const NegativeItem = ({ text, index, scrollProgress }) => {
                         {text}
                     </h3>
 
-                    {/* Desktop: Hover-based strikethrough - centered on text */}
-                    {supportsHover && (
+                    {/* Desktop: Hover-based strikethrough - only on non-touch devices */}
+                    {!isTouchDevice && (
                         <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-red-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out opacity-60 pointer-events-none" />
                     )}
 
-                    {/* Mobile: Scroll-based strikethrough - centered on text */}
-                    {!supportsHover && (
+                    {/* Mobile/Touch: Scroll-based strikethrough */}
+                    {isTouchDevice && (
                         <motion.div
                             className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-red-500 via-red-400 to-red-500 origin-left opacity-70 pointer-events-none"
                             style={{ scaleX: strikeScale }}
@@ -59,6 +56,15 @@ const NegativeItem = ({ text, index, scrollProgress }) => {
 
 const WhatWeDontDo = () => {
     const sectionRef = useRef(null);
+
+    // Detect touch device on client side
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+    useEffect(() => {
+        // Check if device is touch-based (no hover support)
+        const checkTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        setIsTouchDevice(checkTouch);
+    }, []);
 
     // Track scroll progress through this section
     const { scrollYProgress } = useScroll({
@@ -105,8 +111,10 @@ const WhatWeDontDo = () => {
                             text={item}
                             index={index}
                             scrollProgress={scrollYProgress}
+                            isTouchDevice={isTouchDevice}
                         />
                     ))}
+
                 </div>
 
                 <motion.div

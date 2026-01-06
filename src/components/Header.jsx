@@ -36,14 +36,15 @@ const Header = ({ theme }) => {
             </motion.div>
 
             <motion.header
-                className={`sticky top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled
+                className={`sticky top-0 left-0 right-0 z-40 transition-[background-color,padding,border-color] duration-300 md:duration-500 ${scrolled
                     ? isDark
-                        ? 'bg-black/90 backdrop-blur-md border-b border-white/10 py-3 shadow-sm'
-                        : 'bg-white/80 backdrop-blur-md border-b border-zinc-200/50 py-3 shadow-sm'
+                        ? 'bg-black/90 backdrop-blur-sm md:backdrop-blur-md border-b border-white/10 py-3 shadow-sm'
+                        : 'bg-white/80 backdrop-blur-sm md:backdrop-blur-md border-b border-zinc-200/50 py-3 shadow-sm'
                     : isDark
                         ? 'bg-transparent py-5'
                         : 'bg-white py-5'
                     }`}
+                style={{ willChange: 'background-color', transform: 'translateZ(0)' }}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center">

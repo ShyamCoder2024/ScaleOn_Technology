@@ -339,7 +339,33 @@ section {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
+
+  /* Speed up long transitions on mobile for snappier feel */
+  .duration-1000 {
+    transition-duration: 500ms !important;
+  }
+
+  .duration-700 {
+    transition-duration: 400ms !important;
+  }
 }
+
+/* Tablet optimizations (768px - 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+  /* Slightly reduce backdrop blur on tablets */
+  .backdrop-blur-md,
+  .backdrop-blur-lg {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+  }
+
+  /* Speed up some transitions on tablets */
+  .duration-1000 {
+    transition-duration: 700ms !important;
+  }
+}
+
 
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {

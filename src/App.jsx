@@ -69,10 +69,21 @@ function App() {
   }, [handleScroll, updateTheme]);
 
   return (
-    <div className={cn(
-      "min-h-screen transition-colors duration-500 ease-out relative",
-      theme === 'dark' ? "bg-[#050505]" : "bg-white"
-    )}>
+    <div
+      className={cn(
+        "min-h-screen relative",
+        // Faster transition on mobile (300ms), normal on desktop (500ms)
+        "transition-[background-color] duration-300 md:duration-500 ease-out",
+        // GPU acceleration hints
+        "will-change-[background-color]",
+        theme === 'dark' ? "bg-[#050505]" : "bg-white"
+      )}
+      style={{
+        // Force GPU layer for smoother transitions
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden'
+      }}
+    >
       <Header theme={theme} />
       <main>
         <Hero />

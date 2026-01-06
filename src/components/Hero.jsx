@@ -73,7 +73,7 @@ const Hero = memo(() => {
                                     href="#contact"
                                     className="bg-[#101418] text-white px-6 py-4 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-bold text-base sm:text-base hover:bg-gray-800 transition-all duration-200 flex items-center justify-center gap-2 group shadow-lg shadow-gray-200/50 active:scale-95"
                                 >
-                                    Get Your Free Automation Plan
+                                    Get Your Automation Plan
                                     <ArrowRight className="group-hover:translate-x-1 transition-transform duration-200" size={18} />
                                 </a>
                                 <a

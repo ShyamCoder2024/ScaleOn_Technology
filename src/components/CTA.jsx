@@ -84,7 +84,9 @@ const CTA = () => {
                             className="flex flex-col items-center lg:items-start gap-4"
                         >
                             <a
-                                href="#contact"
+                                href="https://wa.me/918459311191?text=Hi%2C%20I%27m%20interested%20in%20your%20automation%20services"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 onMouseEnter={() => setButtonHover(true)}
                                 onMouseLeave={() => setButtonHover(false)}
                                 className="relative px-10 py-4 bg-zinc-900 text-white rounded-full font-bold text-lg transition-transform active:scale-95 group overflow-hidden shadow-2xl shadow-zinc-200 hover:shadow-zinc-300"
@@ -94,6 +96,7 @@ const CTA = () => {
                                     <ArrowRight className={`w-5 h-5 transition-transform duration-300 ${buttonHover ? 'translate-x-1' : ''}`} />
                                 </span>
                             </a>
+
 
                             <div className="flex items-center gap-2 text-sm text-zinc-500 font-medium pl-2">
                                 <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse" />
