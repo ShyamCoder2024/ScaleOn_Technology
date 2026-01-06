@@ -78,12 +78,9 @@ function App() {
         "will-change-[background-color]",
         theme === 'dark' ? "bg-[#050505]" : "bg-white"
       )}
-      style={{
-        // Force GPU layer for smoother transitions
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden'
-      }}
+    // Note: Removed transform: translateZ(0) as it breaks position:sticky on Header
     >
+
       <Header theme={theme} />
       <main>
         <Hero />

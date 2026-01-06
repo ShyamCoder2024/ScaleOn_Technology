@@ -36,7 +36,7 @@ const Header = ({ theme }) => {
             </motion.div>
 
             <motion.header
-                className={`sticky top-0 left-0 right-0 z-40 transition-[background-color,padding,border-color] duration-300 md:duration-500 ${scrolled
+                className={`sticky top-0 left-0 right-0 z-[100] transition-[background-color,padding,border-color] duration-300 md:duration-500 ${scrolled
                     ? isDark
                         ? 'bg-black/90 backdrop-blur-sm md:backdrop-blur-md border-b border-white/10 py-3 shadow-sm'
                         : 'bg-white/80 backdrop-blur-sm md:backdrop-blur-md border-b border-zinc-200/50 py-3 shadow-sm'
@@ -110,7 +110,7 @@ const Header = ({ theme }) => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="fixed inset-0 z-[90] bg-black/40 backdrop-blur-sm md:hidden"
+                            className="fixed inset-0 z-[150] bg-black/40 backdrop-blur-sm md:hidden"
                             onClick={() => setIsMenuOpen(false)}
                         />
 
@@ -120,11 +120,12 @@ const Header = ({ theme }) => {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: -20 }}
                             transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-                            className={`fixed top-20 left-4 right-4 z-[100] rounded-3xl backdrop-blur-3xl shadow-2xl md:hidden overflow-hidden ${isDark
+                            className={`fixed top-20 left-4 right-4 z-[200] rounded-3xl backdrop-blur-3xl shadow-2xl md:hidden overflow-hidden ${isDark
                                 ? 'bg-black/60 border border-white/10'
                                 : 'bg-white/40 border border-white/40'
                                 }`}
                         >
+
                             {/* Inner Glass Shine */}
                             <div className={`absolute inset-0 pointer-events-none bg-gradient-to-br to-transparent opacity-50 ${isDark ? 'from-white/5' : 'from-white/40'
                                 }`} />

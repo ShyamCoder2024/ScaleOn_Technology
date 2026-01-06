@@ -63,10 +63,9 @@ body {
   background-color: #FAFAFA;
   /* Slightly warmer/premium white */
   color: #101418;
-  /* GPU acceleration for smoother scrolling */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+  /* Note: Removed transform: translateZ(0) as it breaks position:sticky on Header */
 }
+
 
 /* Fix bottom overscroll to match footer */
 html {
