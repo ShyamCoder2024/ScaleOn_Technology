@@ -1,10 +1,11 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Settings, TrendingUp, Check } from 'lucide-react';
 import { AnimatedGridPattern } from "./ui/animated-grid-pattern";
 import { cn } from "../lib/utils";
 
-const StepCard = ({ icon: Icon, title, description, stepNumber, isActive, isCompleted }) => {
+// Memoized step card for better performance
+const StepCard = memo(({ icon: Icon, title, description, stepNumber, isActive, isCompleted }) => {
     return (
         <div className="relative z-10 flex-1">
             <div className="flex flex-col items-center text-center">
@@ -46,18 +47,14 @@ const StepCard = ({ icon: Icon, title, description, stepNumber, isActive, isComp
                         />
                     </motion.div>
 
-                    {/* Animated Pulse Ring (Active Only) */}
+                    {/* PERFORMANCE: Use CSS pulse instead of Framer Motion */}
                     {isActive && (
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: [0, 0.5, 0], scale: 1.5 }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                            className="absolute inset-0 rounded-[2rem] border-2 border-indigo-500"
-                        />
+                        <div className="absolute inset-0 rounded-[2rem] border-2 border-indigo-500 animate-step-pulse" />
                     )}
                 </div>
 
                 <motion.h3
+                    initial={false}
                     animate={{
                         color: isActive ? '#312E81' : '#18181B',
                         scale: isActive ? 1.05 : 1
@@ -73,7 +70,8 @@ const StepCard = ({ icon: Icon, title, description, stepNumber, isActive, isComp
             </div>
         </div>
     );
-};
+});
+StepCard.displayName = 'StepCard';
 
 const HowItWorks = () => {
     const [activeStep, setActiveStep] = useState(0);
@@ -137,12 +135,12 @@ const HowItWorks = () => {
                 numSquares={30}
                 maxOpacity={0.1}
                 duration={3}
-                repeatDelay={1}
                 className={cn(
                     "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
                     "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
                 )}
             />
+
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-24 max-w-2xl mx-auto">

@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
-import { motion } from "framer-motion";
-
+import { useEffect, useId, useRef, useState, memo } from "react";
 import { cn } from "../../lib/utils";
 
-export function AnimatedGridPattern({
+// Check if device supports hover (desktop) - cached at module level
+const isDesktop = typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
+
+export const AnimatedGridPattern = memo(function AnimatedGridPattern({
     width = 40,
     height = 40,
     x = -1,
@@ -15,17 +16,46 @@ export function AnimatedGridPattern({
     className,
     maxOpacity = 0.5,
     duration = 4,
-    repeatDelay = 0.5,
     ...props
 }) {
     const id = useId();
     const containerRef = useRef(null);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-    // Mobile optimization: reduce squares and slow down animation
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const optimizedNumSquares = isMobile ? Math.min(numSquares, 10) : numSquares;
-    const optimizedDuration = isMobile ? duration * 1.5 : duration;
+    // PERFORMANCE: Completely disable on mobile/touch devices
+    if (!isDesktop) {
+        return (
+            <svg
+                aria-hidden="true"
+                className={cn(
+                    "pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30",
+                    className,
+                )}
+                {...props}
+            >
+                <defs>
+                    <pattern
+                        id={id}
+                        width={width}
+                        height={height}
+                        patternUnits="userSpaceOnUse"
+                        x={x}
+                        y={y}
+                    >
+                        <path
+                            d={`M.5 ${height}V.5H${width}`}
+                            fill="none"
+                            strokeDasharray={strokeDasharray}
+                        />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill={`url(#${id})`} />
+            </svg>
+        );
+    }
+
+    // Desktop: Use reduced number of squares (12 instead of 30+)
+    const optimizedNumSquares = Math.min(numSquares, 12);
 
     const [squares, setSquares] = useState(() => generateSquares(optimizedNumSquares));
 
@@ -36,7 +66,7 @@ export function AnimatedGridPattern({
         ];
     }
 
-    // Adjust the generateSquares function to return objects with an id, x, and y
+    // Generate squares with positions
     function generateSquares(count) {
         return Array.from({ length: count }, (_, i) => ({
             id: i,
@@ -44,26 +74,12 @@ export function AnimatedGridPattern({
         }));
     }
 
-    // Function to update a single square's position
-    const updateSquarePosition = (id) => {
-        setSquares((currentSquares) =>
-            currentSquares.map((sq) =>
-                sq.id === id
-                    ? {
-                        ...sq,
-                        pos: getPos(),
-                    }
-                    : sq,
-            ),
-        );
-    };
-
-    // Update squares to animate in
+    // Update squares only when dimensions change
     useEffect(() => {
         if (dimensions.width && dimensions.height) {
             setSquares(generateSquares(optimizedNumSquares));
         }
-    }, [dimensions, optimizedNumSquares]);
+    }, [dimensions.width, dimensions.height, optimizedNumSquares]);
 
     // Resize observer to update container dimensions
     useEffect(() => {
@@ -114,28 +130,25 @@ export function AnimatedGridPattern({
                 </pattern>
             </defs>
             <rect width="100%" height="100%" fill={`url(#${id})`} />
+            {/* PERFORMANCE: Use CSS animation instead of Framer Motion */}
             <svg x={x} y={y} className="overflow-visible">
-                {squares.map(({ pos: [x, y], id }, index) => (
-                    <motion.rect
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: maxOpacity }}
-                        transition={{
-                            duration: optimizedDuration,
-                            repeat: 1,
-                            delay: index * 0.1,
-                            repeatType: "reverse",
-                        }}
-                        onAnimationComplete={() => updateSquarePosition(id)}
-                        key={`${x}-${y}-${index}`}
+                {squares.map(({ pos: [px, py], id }, index) => (
+                    <rect
+                        key={`${px}-${py}-${index}`}
                         width={width - 1}
                         height={height - 1}
-                        x={x * width + 1}
-                        y={y * height + 1}
+                        x={px * width + 1}
+                        y={py * height + 1}
                         fill="currentColor"
                         strokeWidth="0"
+                        className="animate-grid-fade"
+                        style={{
+                            animationDelay: `${index * 0.3}s`,
+                            animationDuration: `${duration}s`,
+                        }}
                     />
                 ))}
             </svg>
         </svg>
     );
-}
+});

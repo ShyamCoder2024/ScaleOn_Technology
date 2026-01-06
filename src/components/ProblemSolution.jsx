@@ -26,10 +26,10 @@ const ProblemSolution = () => {
                     {/* Interactive Toggle */}
                     <div className="flex justify-start lg:justify-end">
                         <div className="p-1.5 bg-zinc-100/80 rounded-full inline-flex relative shadow-inner">
-                            <motion.div
-                                layoutId="activeTab"
-                                className={`absolute inset-y-1.5 bg-white rounded-full shadow-sm z-0 ${activeTab === 'problem' ? 'left-1.5 w-[calc(50%-6px)]' : 'left-[50%] w-[calc(50%-6px)]'}`}
-                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            {/* PERFORMANCE: Use CSS transition instead of layoutId */}
+                            <div
+                                className="absolute inset-y-1.5 bg-white rounded-full shadow-sm z-0 w-[calc(50%-6px)] transition-all duration-300 ease-out"
+                                style={{ left: activeTab === 'problem' ? '6px' : '50%' }}
                             />
                             <button
                                 onClick={() => setActiveTab('problem')}
@@ -46,6 +46,7 @@ const ProblemSolution = () => {
                         </div>
                     </div>
                 </div>
+
 
                 {/* Content Area */}
                 <div className="relative h-[500px] md:h-[400px]">

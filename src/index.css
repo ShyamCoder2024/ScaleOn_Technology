@@ -197,6 +197,108 @@ html {
   }
 }
 
+/* CSS animation for AnimatedGridPattern - replaces Framer Motion */
+@keyframes gridFade {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.animate-grid-fade {
+  opacity: 0;
+  animation: gridFade 4s ease-in-out infinite;
+}
+
+/* CSS animations for CTA - replaces Framer Motion infinite loops */
+@keyframes pulseScale {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes connectionDot {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(250%);
+    opacity: 0;
+  }
+}
+
+@keyframes aiPulseRing {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0.1);
+  }
+}
+
+.animate-pulse-scale {
+  animation: pulseScale 2s ease-in-out infinite;
+}
+
+.animate-connection-dot {
+  animation: connectionDot 1.5s linear infinite;
+}
+
+.animate-connection-dot-delayed {
+  animation: connectionDot 1.5s linear infinite;
+  animation-delay: 0.75s;
+}
+
+.animate-ai-pulse {
+  animation: aiPulseRing 1.5s ease-in-out infinite;
+  animation-delay: 0.75s;
+}
+
+/* HowItWorks step pulse animation */
+@keyframes stepPulse {
+
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5);
+  }
+}
+
+.animate-step-pulse {
+  animation: stepPulse 2s ease-in-out infinite;
+}
+
 /* Touch device optimizations - disable hover-based effects */
 @media (hover: none) and (pointer: coarse) {
 

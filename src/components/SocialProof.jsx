@@ -94,22 +94,19 @@ const TestimonialCard = memo(({ data, theme }) => (
 ));
 TestimonialCard.displayName = 'TestimonialCard';
 
+// PERFORMANCE: Use pure CSS animation instead of Framer Motion
 const InfiniteColumn = memo(({ children, duration = 20, className = "", theme }) => (
     <div className={`relative overflow-hidden ${className}`}>
-        <motion.div
-            initial={{ y: 0 }}
-            animate={{ y: "-50%" }}
-            transition={{
-                duration,
-                ease: "linear",
-                repeat: Infinity,
-            }}
-            style={{ willChange: 'transform' }}
+        <div
             className="flex flex-col gpu-accel"
+            style={{
+                animation: `scrollUp ${duration}s linear infinite`,
+                willChange: 'transform',
+            }}
         >
             {children}
             {children}
-        </motion.div>
+        </div>
 
         {/* Gradients to fade in/out - Adaptive */}
         <div className={cn(
@@ -123,6 +120,7 @@ const InfiniteColumn = memo(({ children, duration = 20, className = "", theme })
     </div>
 ));
 InfiniteColumn.displayName = 'InfiniteColumn';
+
 
 const SocialProof = ({ theme }) => {
     const list1 = testimonials.slice(0, 3);

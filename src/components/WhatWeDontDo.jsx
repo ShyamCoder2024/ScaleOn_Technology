@@ -1,10 +1,24 @@
 import React, { useRef, memo } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { X } from 'lucide-react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
-const NegativeItem = ({ text, index }) => {
+// Check if device supports hover (desktop)
+const supportsHover = typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
+
+const NegativeItem = ({ text, index, scrollProgress }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+    // Calculate when this item should be "cut" based on scroll progress
+    // Adjusted: Item 0: 0-0.22, Item 1: 0.18-0.40, Item 2: 0.36-0.58, Item 3: 0.54-0.76
+    const itemStart = index * 0.18;
+    const itemEnd = itemStart + 0.22;
+
+    // Transform scroll progress to strikethrough scale (0 to 1)
+    const strikeScale = useTransform(
+        scrollProgress,
+        [itemStart, itemEnd],
+        [0, 1]
+    );
 
     return (
         <div ref={ref} className="relative group cursor-default">
@@ -17,27 +31,50 @@ const NegativeItem = ({ text, index }) => {
                 <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-red-500/10 group-hover:border-red-500/20 transition-all duration-300">
                     <span className="text-zinc-500 font-mono text-sm group-hover:text-red-400 transition-colors">0{index + 1}</span>
                 </div>
-                <h3 className="text-xl md:text-2xl text-zinc-400 group-hover:text-zinc-200 transition-colors font-light">
-                    {text}
-                </h3>
-            </motion.div>
 
-            {/* Strike-through effect on hover */}
-            <div className="absolute left-16 right-0 top-1/2 h-px bg-red-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out opacity-50" />
+                {/* Text with strikethrough positioned relative to it */}
+                <div className="relative">
+                    <h3 className="text-xl md:text-2xl text-zinc-400 group-hover:text-zinc-200 transition-colors font-light">
+                        {text}
+                    </h3>
+
+                    {/* Desktop: Hover-based strikethrough - centered on text */}
+                    {supportsHover && (
+                        <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-red-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out opacity-60 pointer-events-none" />
+                    )}
+
+                    {/* Mobile: Scroll-based strikethrough - centered on text */}
+                    {!supportsHover && (
+                        <motion.div
+                            className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-red-500 via-red-400 to-red-500 origin-left opacity-70 pointer-events-none"
+                            style={{ scaleX: strikeScale }}
+                        />
+                    )}
+                </div>
+            </motion.div>
         </div>
     );
 };
 
+
 const WhatWeDontDo = () => {
+    const sectionRef = useRef(null);
+
+    // Track scroll progress through this section
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start 0.8", "end 0.4"] // Extended range for all items to complete
+    });
+
     const negatives = [
-        "We don’t sell generic software.",
-        "We don’t force unnecessary tools.",
-        "We don’t disappear after delivery.",
-        "We don’t build systems you can’t understand."
+        "We don't sell generic software.",
+        "We don't force unnecessary tools.",
+        "We don't disappear after delivery.",
+        "We don't build systems you can't understand."
     ];
 
     return (
-        <section className="py-16 md:py-32 text-white relative overflow-hidden">
+        <section ref={sectionRef} className="py-16 md:py-32 text-white relative overflow-hidden">
             {/* Background Noise Texture */}
             <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none brightness-100 contrast-150 mix-blend-overlay" />
 
@@ -57,13 +94,18 @@ const WhatWeDontDo = () => {
                         viewport={{ once: true }}
                         className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 font-display tracking-tight mb-8"
                     >
-                        What We Don’t Do
+                        What We Don't Do
                     </motion.h2>
                 </div>
 
                 <div className="mb-24">
                     {negatives.map((item, index) => (
-                        <NegativeItem key={index} text={item} index={index} />
+                        <NegativeItem
+                            key={index}
+                            text={item}
+                            index={index}
+                            scrollProgress={scrollYProgress}
+                        />
                     ))}
                 </div>
 
@@ -77,7 +119,7 @@ const WhatWeDontDo = () => {
                         We believe simplicity beats complexity every time.
                     </p>
                     <h3 className="text-2xl md:text-4xl font-semibold text-white leading-tight">
-                        If it doesn’t reduce the manual way, <span className="text-red-500 italic font-serif">we don’t build it.</span>
+                        If it doesn't reduce the manual way, <span className="text-red-500 italic font-serif">we don't build it.</span>
                     </h3>
                 </motion.div>
             </div>

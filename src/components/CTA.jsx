@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, memo } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
-const TypingHeadline = ({ text, className }) => {
+const TypingHeadline = memo(({ text, className }) => {
     const [displayedText, setDisplayedText] = useState("");
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -14,30 +14,25 @@ const TypingHeadline = ({ text, className }) => {
                 setDisplayedText(text.substring(0, i + 1));
                 i++;
                 if (i === text.length) clearInterval(timer);
-            }, 50); // Typing speed
+            }, 50);
             return () => clearInterval(timer);
         }
     }, [isInView, text]);
 
     return (
         <div className={`relative ${className}`} ref={ref}>
-            {/* Invisible text to reserve layout space - prevents jumping */}
             <span className="opacity-0 select-none block" aria-hidden="true">
                 {text}
             </span>
-
-            {/* Typing text overlaid */}
             <span className="absolute top-0 left-0">
                 {displayedText}
-                <motion.span
-                    animate={{ opacity: [0, 1, 0] }}
-                    transition={{ duration: 0.8, repeat: Infinity }}
-                    className="inline-block w-[3px] h-[0.8em] bg-indigo-600 ml-1 align-middle"
-                />
+                {/* PERFORMANCE: Use CSS animation instead of Framer Motion */}
+                <span className="inline-block w-[3px] h-[0.8em] bg-indigo-600 ml-1 align-middle typing-cursor" />
             </span>
         </div>
     );
-};
+});
+TypingHeadline.displayName = 'TypingHeadline';
 
 const CTA = () => {
     const containerRef = useRef(null);
@@ -132,64 +127,27 @@ const CTA = () => {
 
                                 {/* YOU Node */}
                                 <div className="flex flex-col items-center gap-2 relative z-10">
-                                    <motion.div
-                                        animate={{ scale: [1, 1.1, 1] }}
-                                        transition={{ duration: 2, repeat: Infinity }}
-                                        className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 flex items-center justify-center shadow-lg shadow-indigo-100"
-                                    >
+                                    {/* PERFORMANCE: Use CSS animation instead of Framer Motion */}
+                                    <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 flex items-center justify-center shadow-lg shadow-indigo-100 animate-pulse-scale">
                                         <span className="text-indigo-600 font-bold text-[10px] md:text-sm">You</span>
-                                    </motion.div>
+                                    </div>
                                     <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-indigo-200" />
                                 </div>
 
                                 {/* Connection Line */}
                                 <div className="h-[2px] flex-1 bg-indigo-100 relative rounded-full overflow-hidden">
-                                    {/* Moving Green Dot */}
-                                    <motion.div
-                                        animate={{
-                                            x: ["-100%", "250%"],
-                                            opacity: [0, 1, 1, 0]
-                                        }}
-                                        transition={{
-                                            duration: 1.5,
-                                            repeat: Infinity,
-                                            ease: "linear"
-                                        }}
-                                        className="absolute top-0 bottom-0 w-12 bg-gradient-to-r from-transparent via-emerald-400 to-transparent blur-[1px]"
-                                    />
-                                    {/* Secondary dot for constant flow */}
-                                    <motion.div
-                                        animate={{
-                                            x: ["-100%", "250%"],
-                                            opacity: [0, 1, 1, 0]
-                                        }}
-                                        transition={{
-                                            duration: 1.5,
-                                            delay: 0.75,
-                                            repeat: Infinity,
-                                            ease: "linear"
-                                        }}
-                                        className="absolute top-0 bottom-0 w-8 bg-gradient-to-r from-transparent via-emerald-400 to-transparent blur-[1px]"
-                                    />
+                                    {/* PERFORMANCE: Use CSS animations for moving dots */}
+                                    <div className="absolute top-0 bottom-0 w-12 bg-gradient-to-r from-transparent via-emerald-400 to-transparent blur-[1px] animate-connection-dot" />
+                                    <div className="absolute top-0 bottom-0 w-8 bg-gradient-to-r from-transparent via-emerald-400 to-transparent blur-[1px] animate-connection-dot-delayed" />
                                 </div>
 
                                 {/* AI Node */}
                                 <div className="flex flex-col items-center gap-2 relative z-10">
-                                    <motion.div
-                                        animate={{
-                                            scale: [1, 1.1, 1],
-                                            boxShadow: [
-                                                "0 0 0 0 rgba(16, 185, 129, 0)",
-                                                "0 0 0 10px rgba(16, 185, 129, 0.1)",
-                                                "0 0 0 0 rgba(16, 185, 129, 0)"
-                                            ]
-                                        }}
-                                        transition={{ duration: 1.5, repeat: Infinity, delay: 0.75 }}
-                                        className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-xl relative"
-                                    >
+                                    {/* PERFORMANCE: Use CSS animation for pulse */}
+                                    <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-xl relative animate-ai-pulse">
                                         <span className="text-white font-bold text-[10px] md:text-sm relative z-10">AI</span>
                                         <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/20 to-transparent rounded-full animate-pulse" />
-                                    </motion.div>
+                                    </div>
                                     <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-zinc-300" />
                                 </div>
                             </div>

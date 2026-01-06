@@ -1,33 +1,48 @@
-import React, { useState } from 'react';
+import React, { memo, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { PhoneCall, Users, BarChart3, Bot, Sparkles } from 'lucide-react';
 
+// PERFORMANCE: Cache touch device check at module level
+const isTouchDevice = typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
 
-const MagicCard = ({ icon: Icon, title, description, delay }) => {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [isHovered, setIsHovered] = useState(false);
+const MagicCard = memo(({ icon: Icon, title, description, delay }) => {
+    const cardRef = useRef(null);
+    const spotlightRef = useRef(null);
 
-    const handleMouseMove = (e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        setMousePosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-    };
+    // PERFORMANCE: Use DOM manipulation instead of React state for mouse tracking
+    const handleMouseMove = useCallback((e) => {
+        if (isTouchDevice || !spotlightRef.current || !cardRef.current) return;
+
+        const rect = cardRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Direct DOM update - no React re-render
+        spotlightRef.current.style.background = `radial-gradient(400px circle at ${x}px ${y}px, rgba(99, 102, 241, 0.1), transparent 40%)`;
+        spotlightRef.current.style.opacity = '1';
+    }, []);
+
+    const handleMouseLeave = useCallback(() => {
+        if (spotlightRef.current) {
+            spotlightRef.current.style.opacity = '0';
+        }
+    }, []);
 
     return (
         <motion.div
+            ref={cardRef}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay, duration: 0.5 }}
             viewport={{ once: true }}
             onMouseMove={handleMouseMove}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseLeave={handleMouseLeave}
             className="relative overflow-hidden rounded-3xl bg-white border border-zinc-200 p-8 h-full transition-all duration-300 hover:shadow-2xl group"
         >
+            {/* PERFORMANCE: Spotlight now uses ref-based DOM updates */}
             <div
-                className="spotlight-effect pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100"
-                style={{
-                    background: `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(99, 102, 241, 0.1), transparent 40%)`
-                }}
+                ref={spotlightRef}
+                className="spotlight-effect pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300"
             />
 
             <div className="relative z-10 flex flex-col h-full">
@@ -49,7 +64,9 @@ const MagicCard = ({ icon: Icon, title, description, delay }) => {
             <div className="absolute inset-0 border-2 border-transparent group-hover:border-indigo-500/10 rounded-3xl transition-colors duration-300 pointer-events-none" />
         </motion.div>
     );
-};
+});
+MagicCard.displayName = 'MagicCard';
+
 
 const SystemServices = () => {
     const services = [

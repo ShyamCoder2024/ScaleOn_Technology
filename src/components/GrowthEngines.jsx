@@ -23,7 +23,7 @@ const colorVariants = {
     }
 };
 
-const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className }) => {
+const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className, link }) => {
     const theme = colorVariants[color];
 
     return (
@@ -61,9 +61,20 @@ const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className 
                     ))}
                 </div>
 
-                <div className={`flex items-center ${theme.text} ${theme.hoverText} font-semibold text-sm transition-colors cursor-pointer`}>
-                    Learn more <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </div>
+                {link ? (
+                    <a
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`flex items-center ${theme.text} ${theme.hoverText} font-semibold text-sm transition-colors cursor-pointer`}
+                    >
+                        Learn more <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                ) : (
+                    <div className={`flex items-center ${theme.text} ${theme.hoverText} font-semibold text-sm transition-colors cursor-pointer`}>
+                        Learn more <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                )}
             </div>
         </motion.div>
     );
@@ -90,13 +101,14 @@ const GrowthEngines = () => {
             title: "AI-Powered Learning Management System",
             subtext: "Enterprise-grade platform handling 5000+ users. Features AI-generated quizzes, automated grading, and deep analytics. Built for high-scale education.",
             tags: ["LMS", "Education AI", "Enterprise"],
-            color: "blue"
+            color: "blue",
+            link: "https://studywise-banking-site.vercel.app/dashboard"
         }
     ];
 
     return (
 
-        <section className="py-16 md:py-32 relative overflow-hidden">
+        <section className="py-16 md:py-32 relative overflow-x-clip overflow-y-visible">
             {/* Subtly animated grid background */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
@@ -129,16 +141,18 @@ const GrowthEngines = () => {
                     </div>
                 </div>
 
-                <div className="flex overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 scrollbar-hide touch-pan-y" style={{ WebkitOverflowScrolling: 'touch' }}>
+                {/* Mobile: Horizontal scroll carousel | Desktop: Grid */}
+                <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
                     {products.map((product, index) => (
                         <AuroraCard
                             key={index}
                             {...product}
                             delay={index * 0.15}
-                            className="min-w-[85vw] md:min-w-0 snap-center"
+                            className="w-[80vw] min-w-[80vw] shrink-0 md:w-auto md:min-w-0 md:shrink snap-center"
                         />
                     ))}
                 </div>
+
 
                 <div className="mt-20 text-center">
                     <motion.div
