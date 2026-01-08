@@ -176,11 +176,11 @@ html {
   --animation-duration: 60s;
 }
 
-/* GPU acceleration */
+/* GPU acceleration - use sparingly */
 .gpu-accel {
   transform: translateZ(0);
   backface-visibility: hidden;
-  will-change: transform;
+  /* Removed will-change to prevent memory pressure */
 }
 
 /* ===== PERFORMANCE OPTIMIZATIONS ===== */
@@ -390,41 +390,34 @@ section {
   }
 }
 
-/* Optimize transform animations for GPU */
-.animate-scroll,
-.animate-spin,
-.animate-pulse {
-  will-change: transform;
+/* Optimize transform animations for GPU - removed broad will-change */
+.animate-scroll {
+  transform: translateZ(0);
+}
+
+.animate-spin {
   transform: translateZ(0);
 }
 
 /* ===== MOBILE-SPECIFIC PERFORMANCE ===== */
 @media screen and (max-width: 768px) {
 
-  /* Faster animations on mobile */
-  * {
-    transition-duration: 0.2s !important;
-  }
-
-  /* Force hardware acceleration on animated elements */
-  [class*="animate-"],
-  [class*="motion"],
-  .transform {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
-
   /* Optimize scroll performance */
   html,
   body {
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
   }
 
   /* Reduce motion complexity - faster, simpler transitions */
   .transition-all {
     transition-property: opacity, transform !important;
+    transition-duration: 0.15s !important;
+  }
+
+  /* Targeted hardware acceleration only for infinite scroll */
+  .animate-scroll {
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 }
 

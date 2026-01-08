@@ -147,7 +147,7 @@ const HowItWorks = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "-15%" }}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 text-zinc-600 text-xs font-bold uppercase tracking-wider mb-6"
                     >
                         Simple Process
@@ -155,7 +155,7 @@ const HowItWorks = () => {
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "-15%" }}
                         transition={{ delay: 0.1 }}
                         className="text-4xl md:text-5xl font-bold text-zinc-900 mb-6 font-display"
                     >

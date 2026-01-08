@@ -1,5 +1,5 @@
-import React, { useRef, memo, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef, memo, useState, useEffect, useMemo } from 'react';
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { cn } from '../../lib/utils';
 
 // Detect touch device
@@ -11,10 +11,18 @@ const isTouchDevice = () => {
 export const ScrollReveal = memo(({ text, className }) => {
     const container = useRef(null);
     const [isTouch, setIsTouch] = useState(false);
+    const [wordOpacities, setWordOpacities] = useState([]);
 
     useEffect(() => {
         setIsTouch(isTouchDevice());
     }, []);
+
+    const words = useMemo(() => text.split(" "), [text]);
+
+    // Initialize opacities
+    useEffect(() => {
+        setWordOpacities(new Array(words.length).fill(0.1));
+    }, [words.length]);
 
     const { scrollYProgress } = useScroll({
         target: container,
@@ -22,12 +30,21 @@ export const ScrollReveal = memo(({ text, className }) => {
         layoutEffect: false // Better performance
     });
 
-    // On mobile: Simple fade-in for entire text block (no per-word transforms)
-    // On desktop: Per-word reveal
-    const words = text.split(" ");
+    // PERFORMANCE: Single event listener calculates ALL word opacities at once
+    // Instead of N useTransform hooks, we use 1 useMotionValueEvent
+    useMotionValueEvent(scrollYProgress, "change", (progress) => {
+        if (isTouch) return; // Mobile uses simple fade
 
-    // Single opacity transform for mobile (instead of N transforms per word)
-    const mobileOpacity = useTransform(scrollYProgress, [0, 0.5], [0.1, 1]);
+        const newOpacities = words.map((_, i) => {
+            const start = i / words.length;
+            const end = start + (1 / words.length);
+            // Map progress within [start, end] to [0.1, 1]
+            if (progress <= start) return 0.1;
+            if (progress >= end) return 1;
+            return 0.1 + ((progress - start) / (end - start)) * 0.9;
+        });
+        setWordOpacities(newOpacities);
+    });
 
     // Mobile: Simple single opacity animation for entire block
     if (isTouch) {
@@ -35,37 +52,27 @@ export const ScrollReveal = memo(({ text, className }) => {
             <motion.h2
                 ref={container}
                 className={cn("flex flex-wrap gap-x-[0.3em] gap-y-2", className)}
-                style={{ opacity: mobileOpacity }}
+                initial={{ opacity: 0.1 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-15%" }}
+                transition={{ duration: 0.6 }}
             >
                 {text}
             </motion.h2>
         );
     }
 
-    // Desktop: Full per-word reveal effect
+    // Desktop: Batched per-word reveal using single state
     return (
         <h2 ref={container} className={cn("flex flex-wrap gap-x-[0.3em] gap-y-2", className)}>
-            {words.map((word, i) => {
-                const start = i / words.length;
-                const end = start + (1 / words.length);
-                return (
-                    <Word key={i} progress={scrollYProgress} range={[start, end]}>
-                        {word}
-                    </Word>
-                );
-            })}
+            {words.map((word, i) => (
+                <span key={i} className="relative inline-block">
+                    <span className="absolute opacity-10">{word}</span>
+                    <span style={{ opacity: wordOpacities[i] || 0.1 }}>{word}</span>
+                </span>
+            ))}
         </h2>
     );
 });
 ScrollReveal.displayName = 'ScrollReveal';
 
-const Word = memo(({ children, progress, range }) => {
-    const opacity = useTransform(progress, range, [0.1, 1]);
-    return (
-        <span className="relative inline-block" style={{ willChange: 'opacity' }}>
-            <span className="absolute opacity-10">{children}</span>
-            <motion.span style={{ opacity }}>{children}</motion.span>
-        </span>
-    );
-});
-Word.displayName = 'Word';

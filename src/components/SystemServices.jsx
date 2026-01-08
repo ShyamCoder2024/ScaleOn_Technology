@@ -34,7 +34,7 @@ const MagicCard = memo(({ icon: Icon, title, description, delay }) => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay, duration: 0.5 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-15%" }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             className="relative overflow-hidden rounded-3xl bg-white border border-zinc-200 p-8 h-full transition-all duration-300 hover:shadow-2xl group"
@@ -100,6 +100,7 @@ const SystemServices = () => {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true, margin: "-15%" }}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-zinc-200 text-zinc-600 text-xs font-bold uppercase tracking-wider mb-6 shadow-sm"
                     >
                         <Sparkles className="w-3 h-3 text-amber-500" />
@@ -109,7 +110,7 @@ const SystemServices = () => {
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "-15%" }}
                         className="text-4xl md:text-5xl font-bold text-zinc-900 mb-6 font-display tracking-tight"
                     >
                         We replace people-dependent manual work with <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">reliable systems</span>
@@ -130,6 +131,7 @@ const SystemServices = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-15%" }}
                         transition={{ delay: 0.4 }}
                         className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-zinc-200 rounded-full shadow-sm hover:shadow-md transition-shadow"
                     >

@@ -1,6 +1,6 @@
 import React, { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { XCircle, CheckCircle2, ArrowRight } from 'lucide-react';
+import { XCircle, CheckCircle2 } from 'lucide-react';
 import { ScrollReveal } from './ui/scroll-reveal';
 
 const ProblemSolution = () => {

@@ -1,21 +1,9 @@
 import React, { useRef, memo, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useScroll, useMotionValueEvent, useInView } from 'framer-motion';
 
-const NegativeItem = ({ text, index, scrollProgress, isTouchDevice }) => {
+const NegativeItem = memo(({ text, index, strikeScale, isTouchDevice }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
-
-    // Calculate when this item should be "cut" based on scroll progress
-    // Adjusted: Item 0: 0-0.22, Item 1: 0.18-0.40, Item 2: 0.36-0.58, Item 3: 0.54-0.76
-    const itemStart = index * 0.18;
-    const itemEnd = itemStart + 0.22;
-
-    // Transform scroll progress to strikethrough scale (0 to 1)
-    const strikeScale = useTransform(
-        scrollProgress,
-        [itemStart, itemEnd],
-        [0, 1]
-    );
 
     return (
         <div ref={ref} className="relative group cursor-default">
@@ -40,18 +28,19 @@ const NegativeItem = ({ text, index, scrollProgress, isTouchDevice }) => {
                         <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-red-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out opacity-60 pointer-events-none" />
                     )}
 
-                    {/* Mobile/Touch: Scroll-based strikethrough */}
+                    {/* Mobile/Touch: Scroll-based strikethrough using CSS transform */}
                     {isTouchDevice && (
-                        <motion.div
-                            className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-red-500 via-red-400 to-red-500 origin-left opacity-70 pointer-events-none"
-                            style={{ scaleX: strikeScale }}
+                        <div
+                            className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-red-500 via-red-400 to-red-500 origin-left opacity-70 pointer-events-none transition-transform duration-100"
+                            style={{ transform: `scaleX(${strikeScale})` }}
                         />
                     )}
                 </div>
             </motion.div>
         </div>
     );
-};
+});
+NegativeItem.displayName = 'NegativeItem';
 
 
 const WhatWeDontDo = () => {
@@ -59,6 +48,8 @@ const WhatWeDontDo = () => {
 
     // Detect touch device on client side
     const [isTouchDevice, setIsTouchDevice] = useState(false);
+    // PERFORMANCE: Single state for all strikethrough scales
+    const [strikeScales, setStrikeScales] = useState([0, 0, 0, 0]);
 
     useEffect(() => {
         // Check if device is touch-based (no hover support)
@@ -69,7 +60,22 @@ const WhatWeDontDo = () => {
     // Track scroll progress through this section
     const { scrollYProgress } = useScroll({
         target: sectionRef,
-        offset: ["start 0.8", "end 0.4"] // Extended range for all items to complete
+        offset: ["start 0.8", "end 0.4"], // Extended range for all items to complete
+        layoutEffect: false // Better performance
+    });
+
+    // PERFORMANCE: Single event listener calculates ALL strikethrough scales at once
+    useMotionValueEvent(scrollYProgress, "change", (progress) => {
+        if (!isTouchDevice) return; // Only needed for touch devices
+
+        const newScales = [0, 1, 2, 3].map((index) => {
+            const itemStart = index * 0.18;
+            const itemEnd = itemStart + 0.22;
+            if (progress <= itemStart) return 0;
+            if (progress >= itemEnd) return 1;
+            return (progress - itemStart) / (itemEnd - itemStart);
+        });
+        setStrikeScales(newScales);
     });
 
     const negatives = [
@@ -89,6 +95,7 @@ const WhatWeDontDo = () => {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true, margin: "-15%" }}
                         className="inline-block mb-6 px-4 py-1.5 border border-red-900/30 bg-red-900/10 rounded-full"
                     >
                         <span className="text-red-400 text-xs font-bold tracking-widest uppercase">Our Anti-Manifesto</span>
@@ -97,7 +104,7 @@ const WhatWeDontDo = () => {
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "-15%" }}
                         className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 font-display tracking-tight mb-8"
                     >
                         What We Don't Do
@@ -110,7 +117,7 @@ const WhatWeDontDo = () => {
                             key={index}
                             text={item}
                             index={index}
-                            scrollProgress={scrollYProgress}
+                            strikeScale={strikeScales[index]}
                             isTouchDevice={isTouchDevice}
                         />
                     ))}
@@ -120,7 +127,7 @@ const WhatWeDontDo = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, margin: "-15%" }}
                     className="text-center"
                 >
                     <p className="text-zinc-500 text-lg mb-6 tracking-wide uppercase font-medium">
@@ -136,3 +143,4 @@ const WhatWeDontDo = () => {
 };
 
 export default memo(WhatWeDontDo);
+

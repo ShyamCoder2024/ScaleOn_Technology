@@ -38,7 +38,7 @@ const SpotlightCard = memo(({ icon: Icon, label, index, className }) => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-15%" }}
             className={cn(
                 "relative overflow-hidden rounded-2xl border border-zinc-200/60 bg-white p-8 md:p-10 shadow-sm transition-all duration-300 hover:shadow-xl group",
                 className
@@ -72,7 +72,7 @@ const Highlight = ({ children, className }) => {
             <motion.svg
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
-                viewport={{ once: false, margin: "-10%" }}
+                viewport={{ once: true, margin: "-10%" }}
                 transition={{ duration: 0.8, ease: "circOut", delay: 0.2 }}
                 style={{ originX: 0 }}
                 className="absolute inset-0 top-1/2 -translate-y-1/2 h-[120%] w-full -z-10"
@@ -120,7 +120,7 @@ const TargetAudience = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "-15%" }}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-sm font-medium mb-6"
                     >
                         <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
@@ -130,7 +130,7 @@ const TargetAudience = () => {
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "-15%" }}
                         transition={{ delay: 0.1 }}
                         className="text-4xl md:text-5xl font-bold text-zinc-900 mb-6 tracking-tight font-display"
                     >
@@ -154,8 +154,8 @@ const TargetAudience = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 }}
+                    viewport={{ once: true, margin: "-15%" }}
+                    transition={{ delay: 0.3 }}
                     className="flex flex-col items-center justify-center text-center space-y-6"
                 >
                     <p className="text-xl md:text-2xl text-zinc-500 font-light max-w-2xl leading-relaxed">

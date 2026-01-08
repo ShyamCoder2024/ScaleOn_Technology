@@ -2,13 +2,13 @@ import { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, MessageCircle } from 'lucide-react';
 
-const FAQItem = ({ question, answer, isOpen, onClick, index }) => {
+const FAQItem = memo(({ question, answer, isOpen, onClick, index }) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            viewport={{ once: true }}
+            transition={{ delay: index * 0.08 }}
+            viewport={{ once: true, margin: "-10%" }}
             className="mb-4"
         >
             <button
@@ -29,24 +29,21 @@ const FAQItem = ({ question, answer, isOpen, onClick, index }) => {
                     {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                 </div>
             </button>
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="overflow-hidden"
-                    >
-                        <div className="px-6 pb-6 pt-2 text-zinc-500 leading-relaxed bg-white rounded-b-2xl mx-1 shadow-xl shadow-indigo-100/50 ring-1 ring-indigo-50 border-t-0 -mt-2 relative z-10">
-                            {answer}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            {/* PERFORMANCE: CSS Grid height animation instead of Framer Motion AnimatePresence */}
+            <div
+                className="grid transition-all duration-300 ease-out"
+                style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+            >
+                <div className="overflow-hidden">
+                    <div className="px-6 pb-6 pt-2 text-zinc-500 leading-relaxed bg-white rounded-b-2xl mx-1 shadow-xl shadow-indigo-100/50 ring-1 ring-indigo-50 border-t-0 -mt-2 relative z-10">
+                        {answer}
+                    </div>
+                </div>
+            </div>
         </motion.div>
     );
-};
+});
+FAQItem.displayName = 'FAQItem';
 
 const FAQ = () => {
     const [openIndex, setOpenIndex] = useState(null);
@@ -88,7 +85,7 @@ const FAQ = () => {
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
+                                viewport={{ once: true, margin: "-10%" }}
                                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6"
                             >
                                 <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
@@ -98,7 +95,7 @@ const FAQ = () => {
                             <motion.h2
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
+                                viewport={{ once: true, margin: "-10%" }}
                                 transition={{ delay: 0.1 }}
                                 className="text-3xl md:text-5xl font-bold text-zinc-900 mb-6 font-display tracking-tight"
                             >
@@ -108,8 +105,8 @@ const FAQ = () => {
                             <motion.p
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.2 }}
+                                viewport={{ once: true, margin: "-10%" }}
+                                transition={{ delay: 0.15 }}
                                 className="text-base md:text-lg text-zinc-500 mb-8 max-w-sm"
                             >
                                 Everything you need to know about how ScaleOn transforms your business.
@@ -118,8 +115,8 @@ const FAQ = () => {
                             <motion.a
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.3 }}
+                                viewport={{ once: true, margin: "-10%" }}
+                                transition={{ delay: 0.2 }}
                                 href="#contact"
                                 className="inline-flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-700 transition-colors group"
                             >

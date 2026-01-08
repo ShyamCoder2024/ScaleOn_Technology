@@ -1,17 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = ({ theme }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const ticking = useRef(false);
 
     useEffect(() => {
-        const handleScroll = () => {
+        const updateScrolled = () => {
             setScrolled(window.scrollY > 50);
+            ticking.current = false;
         };
+
+        const handleScroll = () => {
+            if (!ticking.current) {
+                requestAnimationFrame(updateScrolled);
+                ticking.current = true;
+            }
+        };
+
         window.addEventListener('scroll', handleScroll, { passive: true });
-        handleScroll(); // Initial check
+        updateScrolled(); // Initial check
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
@@ -74,17 +84,15 @@ const Header = ({ theme }) => {
                                         }`} />
                                 </a>
                             ))}
-                            <motion.a
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                            <a
                                 href="#contact"
-                                className={`px-6 py-2.5 rounded-full text-sm font-bold transition-colors shadow-lg ${isDark
+                                className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 shadow-lg hover:scale-105 active:scale-95 ${isDark
                                     ? 'bg-white text-black hover:bg-zinc-200 shadow-white/10'
                                     : 'bg-zinc-900 text-white hover:bg-zinc-800 shadow-zinc-200'
                                     }`}
                             >
                                 Contact Us
-                            </motion.a>
+                            </a>
                         </div>
 
                         {/* Mobile Menu Button */}

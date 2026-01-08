@@ -28,10 +28,9 @@ const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className,
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay, duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-15%" }}
             className={`group relative overflow-hidden rounded-[2rem] bg-[#0A0A0B] border border-zinc-800 p-6 md:p-10 h-full min-h-[300px] md:min-h-[380px] flex flex-col justify-between hover:border-zinc-700 transition-colors duration-500 ${className}`}
         >
             {/* Dynamic Aurora Background */}
@@ -118,6 +117,7 @@ const GrowthEngines = () => {
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-15%" }}
                             className="flex items-center gap-2 mb-4"
                         >
                             <div className="h-px w-8 bg-indigo-500" />
@@ -126,7 +126,7 @@ const GrowthEngines = () => {
                         <motion.h2
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: true, margin: "-15%" }}
                             className="mobile-h1 text-4xl md:text-5xl font-bold text-white mb-4 font-display"
                         >
                             Growth Engines We Build
@@ -158,6 +158,7 @@ const GrowthEngines = () => {
                     <motion.div
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, margin: "-15%" }}
                         transition={{ delay: 0.5 }}
                         className="inline-block p-[2px] rounded-full bg-gradient-to-r from-zinc-800 via-zinc-700 to-zinc-800"
                     >

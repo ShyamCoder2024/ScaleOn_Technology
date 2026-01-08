@@ -56,22 +56,22 @@ const testimonials = [
 const TestimonialCard = memo(({ data, theme }) => (
     <div className="mb-6 break-inside-avoid">
         <div className={cn(
-            "rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all duration-1000",
+            "rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all duration-300",
             theme === 'dark'
                 ? "bg-[#0A0A0B] border-zinc-800"
                 : "bg-white border-zinc-100"
         )}>
             <Quote className={cn(
-                "w-8 h-8 mb-4 fill-current transition-colors duration-1000",
+                "w-8 h-8 mb-4 fill-current transition-colors duration-300",
                 theme === 'dark' ? "text-indigo-500/30" : "text-indigo-100"
             )} />
             <p className={cn(
-                "mb-6 leading-relaxed font-light transition-colors duration-1000",
+                "mb-6 leading-relaxed font-light transition-colors duration-300",
                 theme === 'dark' ? "text-zinc-400" : "text-zinc-600"
             )}>"{data.text}"</p>
             <div className="flex items-center gap-3">
                 <div className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors duration-1000",
+                    "w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors duration-300",
                     theme === 'dark'
                         ? "bg-zinc-800 text-indigo-400"
                         : "bg-gradient-to-br from-indigo-100 to-indigo-50 text-indigo-700"
@@ -80,11 +80,11 @@ const TestimonialCard = memo(({ data, theme }) => (
                 </div>
                 <div>
                     <h4 className={cn(
-                        "font-bold text-sm transition-colors duration-1000",
+                        "font-bold text-sm transition-colors duration-300",
                         theme === 'dark' ? "text-zinc-100" : "text-zinc-900"
                     )}>{data.name}</h4>
                     <p className={cn(
-                        "text-xs transition-colors duration-1000",
+                        "text-xs transition-colors duration-300",
                         theme === 'dark' ? "text-zinc-500" : "text-zinc-500"
                     )}>{data.role}</p>
                 </div>
@@ -110,11 +110,11 @@ const InfiniteColumn = memo(({ children, duration = 20, className = "", theme })
 
         {/* Gradients to fade in/out - Adaptive */}
         <div className={cn(
-            "absolute top-0 inset-x-0 h-24 z-10 pointer-events-none transition-colors duration-1000",
+            "absolute top-0 inset-x-0 h-24 z-10 pointer-events-none transition-colors duration-300",
             theme === 'dark' ? "bg-gradient-to-b from-[#050505] to-transparent" : "bg-gradient-to-b from-white to-transparent"
         )} />
         <div className={cn(
-            "absolute bottom-0 inset-x-0 h-24 z-10 pointer-events-none transition-colors duration-1000",
+            "absolute bottom-0 inset-x-0 h-24 z-10 pointer-events-none transition-colors duration-300",
             theme === 'dark' ? "bg-gradient-to-t from-[#050505] to-transparent" : "bg-gradient-to-t from-white to-transparent"
         )} />
     </div>
@@ -135,7 +135,7 @@ const SocialProof = ({ theme }) => {
                 <div className="mb-20">
                     <div className="text-center mb-10">
                         <div className={cn(
-                            "inline-block mb-3 px-3 py-1 rounded-full border text-xs font-bold uppercase tracking-wider transition-colors duration-1000",
+                            "inline-block mb-3 px-3 py-1 rounded-full border text-xs font-bold uppercase tracking-wider transition-colors duration-300",
                             theme === 'dark'
                                 ? "bg-zinc-800 border-zinc-700 text-zinc-300"
                                 : "bg-indigo-50 border-indigo-100 text-indigo-600"
@@ -143,7 +143,7 @@ const SocialProof = ({ theme }) => {
                             Proven Results
                         </div>
                         <h3 className={cn(
-                            "text-3xl font-bold transition-colors duration-1000",
+                            "text-3xl font-bold transition-colors duration-300",
                             theme === 'dark' ? "text-white" : "text-zinc-900"
                         )}>Real outcomes from real Indian businesses</h3>
                     </div>
@@ -158,10 +158,10 @@ const SocialProof = ({ theme }) => {
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1 }}
-                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.08 }}
+                                viewport={{ once: true, margin: "-15%" }}
                                 className={cn(
-                                    "p-8 rounded-2xl shadow-sm border transition-all duration-1000",
+                                    "p-8 rounded-2xl shadow-sm border transition-all duration-300",
                                     index === 2 ? "col-span-2 md:col-span-1" : "",
                                     theme === 'dark'
                                         ? "bg-[#0A0A0B] border-zinc-800 hover:border-zinc-700"
@@ -180,7 +180,7 @@ const SocialProof = ({ theme }) => {
                 {/* Wall of Love */}
                 <div className="relative">
                     <h2 className={cn(
-                        "text-3xl font-bold text-center mb-12 transition-colors duration-1000",
+                        "text-3xl font-bold text-center mb-12 transition-colors duration-300",
                         theme === 'dark' ? "text-white" : "text-zinc-900"
                     )}>Trusted by Indian Businesses</h2>
                     <div className="grid md:grid-cols-3 gap-6 h-[600px] overflow-hidden">
