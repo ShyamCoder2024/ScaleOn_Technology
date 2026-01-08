@@ -6,6 +6,7 @@ const Header = ({ theme }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const ticking = useRef(false);
+    const lastScrollTime = useRef(0);
 
     useEffect(() => {
         const updateScrolled = () => {
@@ -14,6 +15,11 @@ const Header = ({ theme }) => {
         };
 
         const handleScroll = () => {
+            const now = Date.now();
+            // Throttle to ~30fps (32ms) for low-end device performance
+            if (now - lastScrollTime.current < 32) return;
+            lastScrollTime.current = now;
+
             if (!ticking.current) {
                 requestAnimationFrame(updateScrolled);
                 ticking.current = true;

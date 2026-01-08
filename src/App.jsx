@@ -22,8 +22,9 @@ function App() {
   const growthEnginesRef = useRef(null);
   const whatWeDontDoRef = useRef(null);
   const ticking = useRef(false); // For scroll throttling
+  const lastScrollTime = useRef(0); // For additional throttling
 
-  // Scroll-based theme detection with RAF throttling
+  // Scroll-based theme detection with RAF throttling + 32ms debounce
   const updateTheme = useCallback(() => {
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
@@ -53,6 +54,11 @@ function App() {
   }, []);
 
   const handleScroll = useCallback(() => {
+    const now = Date.now();
+    // Throttle to ~30fps (32ms) for low-end device performance
+    if (now - lastScrollTime.current < 32) return;
+    lastScrollTime.current = now;
+
     if (!ticking.current) {
       requestAnimationFrame(updateTheme);
       ticking.current = true;

@@ -30,15 +30,22 @@ export const ScrollReveal = memo(({ text, className }) => {
         layoutEffect: false // Better performance
     });
 
+    // Throttle ref for 30fps limit
+    const lastUpdateTime = useRef(0);
+
     // PERFORMANCE: Single event listener calculates ALL word opacities at once
-    // Instead of N useTransform hooks, we use 1 useMotionValueEvent
+    // Throttled to ~30fps to reduce CPU load during slow scroll
     useMotionValueEvent(scrollYProgress, "change", (progress) => {
         if (isTouch) return; // Mobile uses simple fade
+
+        // Throttle to ~30fps (32ms)
+        const now = Date.now();
+        if (now - lastUpdateTime.current < 32) return;
+        lastUpdateTime.current = now;
 
         const newOpacities = words.map((_, i) => {
             const start = i / words.length;
             const end = start + (1 / words.length);
-            // Map progress within [start, end] to [0.1, 1]
             if (progress <= start) return 0.1;
             if (progress >= end) return 1;
             return 0.1 + ((progress - start) / (end - start)) * 0.9;

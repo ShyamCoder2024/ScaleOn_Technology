@@ -64,9 +64,18 @@ const WhatWeDontDo = () => {
         layoutEffect: false // Better performance
     });
 
+    // Throttle ref for 30fps limit
+    const lastUpdateTime = useRef(0);
+
     // PERFORMANCE: Single event listener calculates ALL strikethrough scales at once
+    // Throttled to ~30fps to reduce CPU load during slow scroll
     useMotionValueEvent(scrollYProgress, "change", (progress) => {
         if (!isTouchDevice) return; // Only needed for touch devices
+
+        // Throttle to ~30fps (32ms)
+        const now = Date.now();
+        if (now - lastUpdateTime.current < 32) return;
+        lastUpdateTime.current = now;
 
         const newScales = [0, 1, 2, 3].map((index) => {
             const itemStart = index * 0.18;
