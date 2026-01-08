@@ -76,7 +76,6 @@ function App() {
         "transition-colors duration-200 md:duration-300 ease-out",
         theme === 'dark' ? "bg-[#050505]" : "bg-white"
       )}
-    // Note: Removed transform: translateZ(0) as it breaks position:sticky on Header
     >
 
       <Header theme={theme} />
