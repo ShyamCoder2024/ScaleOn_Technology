@@ -47,7 +47,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 /* On mobile, disable scroll-behavior:smooth to avoid jank */
@@ -333,30 +333,35 @@ section {
 /* Optimize backdrop-filter on mobile (expensive GPU operation) */
 @media screen and (max-width: 768px) {
 
+  /* REDUCED blur from 8px to 4px for better performance */
   .backdrop-blur-md,
   .backdrop-blur-sm,
   .backdrop-blur-lg,
   .backdrop-blur-xl,
   .backdrop-blur-2xl,
   .backdrop-blur-3xl {
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
   }
 
   /* Reduce animation complexity on mobile */
   .glass-panel,
   .dark-glass {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
   /* Speed up long transitions on mobile for snappier feel */
   .duration-1000 {
-    transition-duration: 500ms !important;
+    transition-duration: 300ms !important;
   }
 
   .duration-700 {
-    transition-duration: 400ms !important;
+    transition-duration: 250ms !important;
+  }
+
+  .duration-500 {
+    transition-duration: 200ms !important;
   }
 }
 
