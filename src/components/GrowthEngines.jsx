@@ -37,7 +37,7 @@ const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className,
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay, duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "-15%" }}
-            className={`group relative overflow-hidden rounded-[2rem] bg-[#0A0A0B] border border-zinc-800 p-6 md:p-8 h-full min-h-[280px] md:min-h-[320px] flex flex-col justify-between hover:border-zinc-700 transition-colors duration-500 ${className}`}
+            className={`group relative overflow-hidden rounded-[2rem] bg-[#0A0A0B] border border-zinc-800 p-6 md:p-8 h-[340px] flex flex-col justify-between hover:border-zinc-700 transition-colors duration-500 ${className}`}
         >
             {/* Dynamic Aurora Background */}
             <div className={`absolute top-0 right-0 w-[400px] h-[400px] ${theme.bg} rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 ${theme.hoverBg} transition-all duration-700`} />
@@ -49,16 +49,16 @@ const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className,
                     <Icon className={`w-6 h-6 ${theme.text} ${theme.hoverText} transition-colors duration-300`} />
                 </div>
 
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 leading-tight font-display tracking-tight">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 leading-tight font-display tracking-tight line-clamp-2">
                     {title}
                 </h3>
-                <p className="text-zinc-400 leading-relaxed mb-5 text-sm md:text-base font-light line-clamp-4">
+                <p className="text-zinc-400 leading-relaxed text-sm md:text-base font-light line-clamp-3">
                     {subtext}
                 </p>
             </div>
 
-            <div className="relative z-10 pt-6 border-t border-white/5 flex flex-wrap items-center justify-between gap-4">
-                <div className="flex flex-wrap gap-2">
+            <div className="relative z-10 pt-4 border-t border-white/5 flex flex-wrap items-center justify-between gap-3 mt-auto">
+                <div className="flex flex-wrap gap-1.5">
                     {tags.map((tag, i) => (
                         <span key={i} className="px-3 py-1 rounded-full text-xs font-medium bg-zinc-800 text-zinc-300 border border-zinc-700">
                             {tag}
