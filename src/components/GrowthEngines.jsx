@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
-import { Mic2, MessageSquare, GraduationCap, ArrowRight, Zap, Grip } from 'lucide-react';
+import { Mic2, MessageSquare, GraduationCap, ArrowRight, Zap, Grip, ShoppingCart } from 'lucide-react';
 
 const colorVariants = {
     rose: {
@@ -20,6 +20,12 @@ const colorVariants = {
         hoverText: "group-hover:text-blue-300",
         bg: "bg-blue-500/10",
         hoverBg: "group-hover:bg-blue-500/20",
+    },
+    violet: {
+        text: "text-violet-400",
+        hoverText: "group-hover:text-violet-300",
+        bg: "bg-violet-500/10",
+        hoverBg: "group-hover:bg-violet-500/20",
     }
 };
 
@@ -89,11 +95,12 @@ const GrowthEngines = () => {
             color: "rose"
         },
         {
-            icon: MessageSquare,
-            title: "WhatsApp Growth Engine",
-            subtext: "Turn everyday conversations into consistent conversions. Automated follow-ups, broadcast campaigns, and instant support replies.",
-            tags: ["WhatsApp API", "Marketing", "Support"],
-            color: "emerald"
+            icon: ShoppingCart,
+            title: "ScaleOn E-Commerce Engine",
+            subtext: "Configuration-driven e-commerce platform designed for Indian SMBs. Fully admin-controlled with toggle-based settings, ultra-fast performance, and enterprise-grade stability. No developer needed post-deployment.",
+            tags: ["E-Commerce", "SMB India", "Config-Driven"],
+            color: "violet",
+            link: "https://scale-on-e-commerce-engine-frontend.vercel.app/"
         },
         {
             icon: GraduationCap,
@@ -102,6 +109,13 @@ const GrowthEngines = () => {
             tags: ["LMS", "Education AI", "Enterprise"],
             color: "blue",
             link: "https://studywise-banking-site.vercel.app/dashboard"
+        },
+        {
+            icon: MessageSquare,
+            title: "WhatsApp Growth Engine",
+            subtext: "Turn everyday conversations into consistent conversions. Automated follow-ups, broadcast campaigns, and instant support replies.",
+            tags: ["WhatsApp API", "Marketing", "Support"],
+            color: "emerald"
         }
     ];
 
@@ -142,7 +156,7 @@ const GrowthEngines = () => {
                 </div>
 
                 {/* Mobile: Horizontal scroll carousel | Desktop: Grid */}
-                <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
                     {products.map((product, index) => (
                         <AuroraCard
                             key={index}
