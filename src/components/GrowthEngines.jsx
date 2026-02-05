@@ -37,7 +37,7 @@ const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className,
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay, duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "-15%" }}
-            className={`group relative overflow-hidden rounded-[2rem] bg-[#0A0A0B] border border-zinc-800 p-6 md:p-8 h-[340px] flex flex-col justify-between hover:border-zinc-700 transition-colors duration-500 ${className}`}
+            className={`group relative overflow-hidden rounded-[2rem] bg-[#0A0A0B] border border-zinc-800 p-6 md:p-8 h-[400px] md:h-[380px] flex flex-col justify-between hover:border-zinc-700 transition-colors duration-500 ${className}`}
         >
             {/* Dynamic Aurora Background */}
             <div className={`absolute top-0 right-0 w-[400px] h-[400px] ${theme.bg} rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 ${theme.hoverBg} transition-all duration-700`} />
@@ -49,10 +49,10 @@ const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className,
                     <Icon className={`w-6 h-6 ${theme.text} ${theme.hoverText} transition-colors duration-300`} />
                 </div>
 
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 leading-tight font-display tracking-tight line-clamp-2">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 leading-tight font-display tracking-tight">
                     {title}
                 </h3>
-                <p className="text-zinc-400 leading-relaxed text-sm md:text-base font-light line-clamp-3">
+                <p className="text-zinc-400 leading-relaxed text-sm font-light">
                     {subtext}
                 </p>
             </div>
@@ -97,7 +97,7 @@ const GrowthEngines = () => {
         {
             icon: ShoppingCart,
             title: "ScaleOn E-Commerce Engine",
-            subtext: "Configuration-driven e-commerce platform designed for Indian SMBs. Fully admin-controlled with toggle-based settings, ultra-fast performance, and enterprise-grade stability. No developer needed post-deployment.",
+            subtext: "Config-driven platform for Indian SMBs. Fully admin-controlled, ultra-fast, and enterprise-stable. No developer needed after deployment.",
             tags: ["E-Commerce", "SMB India", "Config-Driven"],
             color: "violet",
             link: "https://scale-on-e-commerce-engine-frontend.vercel.app/"
