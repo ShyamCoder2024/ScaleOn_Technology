@@ -172,4 +172,4 @@ const TargetAudience = () => {
     );
 };
 
-export default TargetAudience;
+export default memo(TargetAudience);

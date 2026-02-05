@@ -146,4 +146,4 @@ const SystemServices = () => {
     );
 };
 
-export default SystemServices;
+export default memo(SystemServices);

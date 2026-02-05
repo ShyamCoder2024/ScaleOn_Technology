@@ -93,14 +93,14 @@ function App() {
   }, []);
 
   return (
-    <div
-      className={cn(
-        "min-h-screen relative",
-        // Faster transition for smoother feel during scroll
-        "transition-colors duration-700 ease-out",
-        theme === 'dark' ? "bg-[#050505]" : "bg-white"
-      )}
-    >
+    <div className="min-h-screen relative isolate">
+      {/* PERFORMANCE: Fixed background layer prevents repainting the entire DOM tree on theme change */}
+      <div
+        className={cn(
+          "fixed inset-0 -z-50 transition-colors duration-700 ease-out",
+          theme === 'dark' ? "bg-[#050505]" : "bg-white"
+        )}
+      />
 
       <Header theme={theme} />
       <main>
