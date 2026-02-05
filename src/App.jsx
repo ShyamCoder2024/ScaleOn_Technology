@@ -12,7 +12,7 @@ import FAQ from './components/FAQ';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { cn } from './lib/utils';
 
 function App() {
@@ -24,62 +24,80 @@ function App() {
   const ticking = useRef(false); // For scroll throttling
   const lastScrollTime = useRef(0); // For additional throttling
 
-  // Scroll-based theme detection with RAF throttling + 32ms debounce
-  const updateTheme = useCallback(() => {
-    const scrollY = window.scrollY;
-    const windowHeight = window.innerHeight;
-    const viewportCenter = scrollY + windowHeight / 2;
+  // Refs for theme logic
+  const darkSectionsInView = useRef(new Set());
+  const themeDebounceRef = useRef(null);
+  const lastThemeRef = useRef('light');
 
-    let shouldBeDark = false;
+  // PERFORMANCE: Use Intersection Observer with specific trigger line
 
-    // Check if viewport center is within any dark section
-    const darkSections = [growthEnginesRef.current, whatWeDontDoRef.current];
-
-    for (const section of darkSections) {
-      if (section) {
-        const rect = section.getBoundingClientRect();
-        const sectionTop = scrollY + rect.top;
-        const sectionBottom = sectionTop + rect.height;
-
-        // If viewport center is within this section, it should be dark
-        if (viewportCenter >= sectionTop && viewportCenter <= sectionBottom) {
-          shouldBeDark = true;
-          break;
-        }
-      }
-    }
-
-    setTheme(shouldBeDark ? 'dark' : 'light');
-    ticking.current = false;
-  }, []);
-
-  const handleScroll = useCallback(() => {
-    const now = Date.now();
-    // Throttle to ~30fps (32ms) for low-end device performance
-    if (now - lastScrollTime.current < 32) return;
-    lastScrollTime.current = now;
-
-    if (!ticking.current) {
-      requestAnimationFrame(updateTheme);
-      ticking.current = true;
-    }
-  }, [updateTheme]);
-
+  // PERFORMANCE: Use Intersection Observer with specific trigger line
+  // This ensures smooth transitions only when the section dominates the view
   useEffect(() => {
-    // Use passive listener for better scroll performance
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    // Initial check
-    updateTheme();
+    const options = {
+      root: null,
+      threshold: 0,
+      // Create a trigger line at 25% from the top of the viewport
+      // Top margin -25% pushes top edge down to 25%
+      // Bottom margin -75% pushes bottom edge up to 25%
+      // Result: A thin detection line at 25% height
+      rootMargin: '-25% 0px -75% 0px'
+    };
 
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll, updateTheme]);
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        const sectionId = entry.target.dataset.darkSection;
+
+        if (entry.isIntersecting) {
+          darkSectionsInView.current.add(sectionId);
+        } else {
+          darkSectionsInView.current.delete(sectionId);
+        }
+      });
+
+      // Calculate new theme
+      const newTheme = darkSectionsInView.current.size > 0 ? 'dark' : 'light';
+
+      // ANTI-BLINK: Debounce theme changes
+      // Only update theme after stable state for 50ms
+      // This prevents rapid flickering during fast scrolls
+      if (newTheme !== lastThemeRef.current) {
+        if (themeDebounceRef.current) {
+          clearTimeout(themeDebounceRef.current);
+        }
+        themeDebounceRef.current = setTimeout(() => {
+          lastThemeRef.current = newTheme;
+          setTheme(newTheme);
+        }, 50);
+      }
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, options);
+
+    // Observe dark sections
+    if (growthEnginesRef.current) {
+      growthEnginesRef.current.dataset.darkSection = 'growthEngines';
+      observer.observe(growthEnginesRef.current);
+    }
+    if (whatWeDontDoRef.current) {
+      whatWeDontDoRef.current.dataset.darkSection = 'whatWeDontDo';
+      observer.observe(whatWeDontDoRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+      if (themeDebounceRef.current) {
+        clearTimeout(themeDebounceRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div
       className={cn(
         "min-h-screen relative",
         // Faster transition for smoother feel during scroll
-        "transition-colors duration-200 md:duration-300 ease-out",
+        "transition-colors duration-700 ease-out",
         theme === 'dark' ? "bg-[#050505]" : "bg-white"
       )}
     >
