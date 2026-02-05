@@ -69,7 +69,7 @@ export const ScrollReveal = memo(({ text, className }) => {
         );
     }
 
-    // Desktop: Batched per-word reveal using single state
+    // Desktop: Batched per-word reveals using single state
     return (
         <h2 ref={container} className={cn("flex flex-wrap gap-x-[0.3em] gap-y-2", className)}>
             {words.map((word, i) => (
@@ -82,4 +82,3 @@ export const ScrollReveal = memo(({ text, className }) => {
     );
 });
 ScrollReveal.displayName = 'ScrollReveal';
-

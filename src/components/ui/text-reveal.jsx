@@ -78,4 +78,3 @@ const TextRevealByWord = memo(({
 TextRevealByWord.displayName = 'TextRevealByWord';
 
 export { TextRevealByWord };
-

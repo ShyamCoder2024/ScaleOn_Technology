@@ -10,7 +10,7 @@ const NegativeItem = memo(({ text, index, strikeScale, isTouchDevice }) => {
             <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
+                transition={{ index: index * 0.1, duration: 0.5 }}
                 className="flex items-center gap-6 py-6 border-b border-white/5 group-hover:border-white/10 transition-colors"
             >
                 <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-red-500/10 group-hover:border-red-500/20 transition-all duration-300">
@@ -152,4 +152,3 @@ const WhatWeDontDo = () => {
 };
 
 export default memo(WhatWeDontDo);
-
