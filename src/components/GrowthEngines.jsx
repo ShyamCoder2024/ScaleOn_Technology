@@ -37,7 +37,7 @@ const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className,
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay, duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "-15%" }}
-            className={`group relative overflow-hidden rounded-[2rem] bg-[#0A0A0B] border border-zinc-800 p-6 md:p-10 h-full min-h-[300px] md:min-h-[380px] flex flex-col justify-between hover:border-zinc-700 transition-colors duration-500 ${className}`}
+            className={`group relative overflow-hidden rounded-[2rem] bg-[#0A0A0B] border border-zinc-800 p-6 md:p-8 h-full min-h-[280px] md:min-h-[320px] flex flex-col justify-between hover:border-zinc-700 transition-colors duration-500 ${className}`}
         >
             {/* Dynamic Aurora Background */}
             <div className={`absolute top-0 right-0 w-[400px] h-[400px] ${theme.bg} rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 ${theme.hoverBg} transition-all duration-700`} />
@@ -45,14 +45,14 @@ const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className,
 
             {/* Content Layer */}
             <div className="relative z-10">
-                <div className={`w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-700 flex items-center justify-center mb-8 shadow-lg group-hover:scale-105 transition-transform duration-300 group-hover:border-zinc-600`}>
-                    <Icon className={`w-7 h-7 ${theme.text} ${theme.hoverText} transition-colors duration-300`} />
+                <div className={`w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-700 flex items-center justify-center mb-5 shadow-lg group-hover:scale-105 transition-transform duration-300 group-hover:border-zinc-600`}>
+                    <Icon className={`w-6 h-6 ${theme.text} ${theme.hoverText} transition-colors duration-300`} />
                 </div>
 
-                <h3 className="text-3xl font-bold text-white mb-4 leading-tight font-display tracking-tight">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 leading-tight font-display tracking-tight">
                     {title}
                 </h3>
-                <p className="text-zinc-400 leading-relaxed mb-8 text-lg font-light">
+                <p className="text-zinc-400 leading-relaxed mb-5 text-sm md:text-base font-light line-clamp-4">
                     {subtext}
                 </p>
             </div>
@@ -155,14 +155,14 @@ const GrowthEngines = () => {
                     </div>
                 </div>
 
-                {/* Mobile: Horizontal scroll carousel | Desktop: Grid */}
-                <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
+                {/* Horizontal scroll carousel for all screen sizes */}
+                <div className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 gap-4 md:gap-5 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
                     {products.map((product, index) => (
                         <AuroraCard
                             key={index}
                             {...product}
-                            delay={index * 0.15}
-                            className="w-[80vw] min-w-[80vw] shrink-0 md:w-auto md:min-w-0 md:shrink snap-center"
+                            delay={index * 0.1}
+                            className="w-[80vw] min-w-[80vw] md:w-[45vw] md:min-w-[45vw] lg:w-[340px] lg:min-w-[340px] shrink-0 snap-center"
                         />
                     ))}
                 </div>
