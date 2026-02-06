@@ -11,7 +11,6 @@ export const Counter = memo(({
     prefix = "",
 }) => {
     const ref = useRef(null);
-    const [displayValue, setDisplayValue] = useState(direction === "down" ? value : 0);
     const motionValue = useMotionValue(direction === "down" ? value : 0);
     const springValue = useSpring(motionValue, {
         damping: 60,
@@ -27,11 +26,10 @@ export const Counter = memo(({
     }, [motionValue, isInView, direction, value, delay]);
 
     useEffect(() => {
+        // PERFORMANCE: Direct DOM update only - NO React state update
         const unsubscribe = springValue.on("change", (latest) => {
-            const newValue = prefix + latest.toFixed(decimalPlaces) + suffix;
-            setDisplayValue(newValue);
             if (ref.current) {
-                ref.current.textContent = newValue;
+                ref.current.textContent = prefix + latest.toFixed(decimalPlaces) + suffix;
             }
         });
         return () => unsubscribe();

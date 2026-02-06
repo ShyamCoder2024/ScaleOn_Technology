@@ -193,9 +193,11 @@ html {
 @media (hover: none) and (pointer: coarse) {
 
   /* Reduce large blur effects that cause GPU strain */
+  .blur-\[60px\],
+  .blur-\[80px\],
   .blur-\[100px\],
   .blur-\[120px\] {
-    filter: blur(30px) !important;
+    filter: blur(20px) !important;
   }
 
   /* Slow down heavy continuous CSS animations (not Framer Motion) */
