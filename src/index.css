@@ -183,14 +183,29 @@ html {
   /* Removed will-change to prevent memory pressure */
 }
 
-/* ===== FIRST-SCROLL PERFORMANCE FIX ===== */
+/* ===== MOBILE ANIMATION OPTIMIZATION ===== */
 /* 
-   ROOT CAUSE OF BLINKING: Elements start at opacity: 0 and wait for staggered
-   delays before animating. The CSS below ensures smoother compositing.
+   Problem: Framer Motion's opacity: 0 → 1 animations cause "blinking" on mobile
+   because the transition is visible as a sudden appearance.
    
-   NOTE: Removed aggressive selectors like [style*="opacity"] which caused
-   paint thrashing by forcing will-change on too many elements.
+   Solution: On mobile, make animations FASTER so the opacity transition
+   completes quickly and appears smoother. Keep animations intact!
 */
+@media (hover: none) and (pointer: coarse) {
+
+  /* Speed up ALL transitions on mobile for snappier feel */
+  *:not(.no-transition-override) {
+    transition-duration: 0.15s !important;
+  }
+
+  /* Animated elements get GPU boost for smoother rendering */
+  [style*="opacity"],
+  [style*="transform"] {
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+}
 
 /* Only apply GPU hints to main content area - not all elements */
 main {
