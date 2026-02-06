@@ -219,6 +219,25 @@ section {
   contain: layout style paint;
 }
 
+/* ===== MOBILE: OPTIMIZE HEAVY EFFECTS ===== */
+/* Large blur effects and fast animations cause GPU strain on mobile */
+@media (hover: none) and (pointer: coarse) {
+
+  /* Reduce large blur effects that cause GPU strain */
+  .blur-\[100px\],
+  .blur-\[120px\] {
+    filter: blur(40px) !important;
+  }
+
+  /* Slow down continuous animations to reduce GPU load */
+  .animate-pulse-scale,
+  .animate-connection-dot,
+  .animate-connection-dot-delayed,
+  .animate-ai-pulse {
+    animation-duration: 4s !important;
+  }
+}
+
 /* ===== PERFORMANCE OPTIMIZATIONS ===== */
 
 /* Shimmer animation for loading states */
