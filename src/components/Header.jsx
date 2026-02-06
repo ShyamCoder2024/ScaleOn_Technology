@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, ArrowRight, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = ({ theme }) => {
@@ -35,22 +35,6 @@ const Header = ({ theme }) => {
 
     return (
         <>
-            {/* Announcement Banner */}
-            <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                viewport={{ once: true }}
-                className="hidden md:block bg-[#2563EB] text-white relative z-50 overflow-hidden"
-            >
-                <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-center gap-3 text-xs md:text-sm font-medium">
-                    <Sparkles className="w-4 h-4 text-white/80" />
-                    <span>Scaleon Technologies is Transforming Indian Businesses with AI</span>
-                    <a href="#contact" className="hidden sm:flex items-center gap-1 text-white/90 hover:text-white transition-colors group">
-                        Get Started <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                    </a>
-                </div>
-            </motion.div>
-
             <motion.header
                 className={`sticky top-0 left-0 right-0 z-[100] transition-[background-color,padding,border-color] duration-300 md:duration-500 ${scrolled
                     ? isDark
