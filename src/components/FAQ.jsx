@@ -11,32 +11,35 @@ const FAQItem = memo(({ question, answer, isOpen, onClick, index }) => {
             viewport={{ once: true, margin: "-10%" }}
             className="mb-4"
         >
-            <button
-                onClick={onClick}
-                className={`w-full flex items-center justify-between p-4 md:p-6 rounded-2xl text-left transition-all duration-300 ${isOpen
-                    ? 'bg-white shadow-xl shadow-indigo-100/50 ring-1 ring-indigo-50'
-                    : 'bg-zinc-50 hover:bg-zinc-100'
-                    }`}
-            >
-                <span className={`text-[15px] md:text-lg font-medium pr-4 md:pr-8 transition-colors duration-300 ${isOpen ? 'text-indigo-900' : 'text-zinc-700'
-                    }`}>
-                    {question}
-                </span>
-                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isOpen
-                    ? 'bg-indigo-600 text-white rotate-180'
-                    : 'bg-white text-zinc-400 border border-zinc-200'
-                    }`}>
-                    {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                </div>
-            </button>
-            {/* PERFORMANCE: CSS Grid height animation instead of Framer Motion AnimatePresence */}
-            <div
-                className="grid transition-all duration-300 ease-out"
-                style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
-            >
-                <div className="overflow-hidden">
-                    <div className="px-4 md:px-6 pb-5 pt-4 text-zinc-500 text-sm md:text-base leading-relaxed bg-white rounded-b-2xl shadow-lg border border-t-0 border-zinc-100">
-                        {answer}
+            {/* Wrapper for unified card appearance when open */}
+            <div className={`rounded-2xl overflow-hidden transition-shadow duration-300 ${isOpen ? 'shadow-lg shadow-indigo-100/50' : ''}`}>
+                <button
+                    onClick={onClick}
+                    className={`w-full flex items-center justify-between p-4 md:p-6 text-left transition-all duration-300 ${isOpen
+                        ? 'bg-white'
+                        : 'bg-zinc-50 hover:bg-zinc-100 rounded-2xl'
+                        }`}
+                >
+                    <span className={`text-[15px] md:text-lg font-medium pr-4 md:pr-8 transition-colors duration-300 ${isOpen ? 'text-indigo-900' : 'text-zinc-700'
+                        }`}>
+                        {question}
+                    </span>
+                    <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isOpen
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-white text-zinc-400 border border-zinc-200'
+                        }`}>
+                        {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                    </div>
+                </button>
+                {/* PERFORMANCE: CSS Grid height animation instead of Framer Motion AnimatePresence */}
+                <div
+                    className="grid transition-all duration-300 ease-out"
+                    style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+                >
+                    <div className="overflow-hidden">
+                        <div className="px-4 md:px-6 pb-5 pt-3 text-zinc-500 text-sm md:text-base leading-relaxed bg-white border-t border-zinc-100">
+                            {answer}
+                        </div>
                     </div>
                 </div>
             </div>
