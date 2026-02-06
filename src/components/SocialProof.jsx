@@ -168,7 +168,7 @@ const SocialProof = ({ theme }) => {
                                         : "bg-white border-zinc-100 hover:border-indigo-100"
                                 )}
                             >
-                                <div className="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 to-indigo-400 mb-2 font-display tracking-tight">
+                                <div className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 to-indigo-400 mb-2 font-display tracking-tight">
                                     <Counter value={stat.value} suffix={stat.suffix} />
                                 </div>
                                 <div className="text-zinc-500 font-medium uppercase tracking-wide text-sm">{stat.label}</div>
