@@ -27,7 +27,7 @@ const features = [
                                     key={i}
                                     initial={{ height: 0 }}
                                     animate={{ height: `${h}%` }}
-                                    transition={{ delay: i * 0.1 }}
+                                    transition={{ delay: i * 0.03 }}
                                     className="flex-1 bg-pink-500/50 rounded-sm"
                                 />
                             ))}
@@ -69,7 +69,7 @@ const features = [
                             key={i}
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: i * 0.15 }}
+                            transition={{ delay: i * 0.035 }}
                             className="bg-zinc-800/80 border border-zinc-700 rounded-xl p-4 flex items-center justify-between"
                         >
                             <div className="flex items-center gap-3">

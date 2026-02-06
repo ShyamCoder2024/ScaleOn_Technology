@@ -149,7 +149,7 @@ const Header = ({ theme }) => {
                                         <motion.a
                                             initial={{ opacity: 0, x: -10 }}
                                             animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: i * 0.1 }}
+                                            transition={{ delay: i * 0.03 }}
                                             key={item}
                                             href={`#${item.toLowerCase()}`}
                                             className={`block p-4 rounded-xl transition-all group flex items-center justify-between ${isDark

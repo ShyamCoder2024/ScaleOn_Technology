@@ -57,7 +57,7 @@ const Industries = () => {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
+                            transition={{ delay: index * 0.03 }}
                             whileHover={{ y: -5 }}
                             className="bg-zinc-50 rounded-2xl p-8 border border-zinc-100 hover:bg-white hover:shadow-xl hover:shadow-indigo-500/10 hover:border-indigo-100 transition-all duration-300 group cursor-pointer h-full flex flex-col"
                         >
