@@ -68,7 +68,7 @@ export const ScrollReveal = memo(({ text, className }) => {
                 className={cn("flex flex-wrap gap-x-[0.3em] gap-y-2", className)}
                 initial={{ opacity: 0.1 }}
                 whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-15%" }}
+                viewport={{ once: true, margin: "50px" }}
                 transition={{ duration: 0.6 }}
             >
                 {text}

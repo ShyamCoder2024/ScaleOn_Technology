@@ -3,7 +3,7 @@ import { motion, useScroll, useMotionValueEvent, useInView } from 'framer-motion
 
 const NegativeItem = memo(({ text, index, strikeRef, isTouchDevice }) => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-50px" });
+    const isInView = useInView(ref, { once: true, margin: "50px" });
 
     return (
         <div ref={ref} className="relative group cursor-default">
@@ -112,7 +112,7 @@ const WhatWeDontDo = () => {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true, margin: "-15%" }}
+                        viewport={{ once: true, margin: "50px" }}
                         className="inline-block mb-6 px-4 py-1.5 border border-red-900/30 bg-red-900/10 rounded-full"
                     >
                         <span className="text-red-400 text-xs font-bold tracking-widest uppercase">Our Anti-Manifesto</span>
@@ -121,7 +121,7 @@ const WhatWeDontDo = () => {
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-15%" }}
+                        viewport={{ once: true, margin: "50px" }}
                         className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 font-display tracking-tight mb-8"
                     >
                         What We Don't Do
@@ -144,7 +144,7 @@ const WhatWeDontDo = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-15%" }}
+                    viewport={{ once: true, margin: "50px" }}
                     className="text-center"
                 >
                     <p className="text-zinc-500 text-lg mb-6 tracking-wide uppercase font-medium">

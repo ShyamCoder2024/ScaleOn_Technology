@@ -8,7 +8,7 @@ const FAQItem = memo(({ question, answer, isOpen, onClick, index }) => {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.08 }}
-            viewport={{ once: true, margin: "-10%" }}
+            viewport={{ once: true, margin: "50px" }}
             className="mb-4"
         >
             {/* Wrapper for unified card appearance when open */}
@@ -88,7 +88,7 @@ const FAQ = () => {
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-10%" }}
+                                viewport={{ once: true, margin: "50px" }}
                                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6"
                             >
                                 <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
@@ -98,7 +98,7 @@ const FAQ = () => {
                             <motion.h2
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-10%" }}
+                                viewport={{ once: true, margin: "50px" }}
                                 transition={{ delay: 0.1 }}
                                 className="text-3xl md:text-5xl font-bold text-zinc-900 mb-6 font-display tracking-tight"
                             >
@@ -108,7 +108,7 @@ const FAQ = () => {
                             <motion.p
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-10%" }}
+                                viewport={{ once: true, margin: "50px" }}
                                 transition={{ delay: 0.15 }}
                                 className="text-base md:text-lg text-zinc-500 mb-8 max-w-sm"
                             >
@@ -118,7 +118,7 @@ const FAQ = () => {
                             <motion.a
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-10%" }}
+                                viewport={{ once: true, margin: "50px" }}
                                 transition={{ delay: 0.2 }}
                                 href="#contact"
                                 className="inline-flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-700 transition-colors group"

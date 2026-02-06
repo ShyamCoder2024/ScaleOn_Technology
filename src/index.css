@@ -188,10 +188,14 @@ html {
    the browser isn't prepared for the animation. Solution: Add will-change hints
    to elements that will animate, so the browser creates GPU layers in advance. */
 
-/* Framer Motion applies these data attributes to animated elements.
+/* Framer Motion applies inline styles to animated elements.
    By adding will-change, we prepare GPU layers BEFORE animation starts. */
 [style*="opacity"] {
   will-change: opacity;
+}
+
+[style*="transform"] {
+  will-change: transform;
 }
 
 /* Motion div/section elements that animate with transform + opacity */
@@ -201,9 +205,18 @@ section>div>div {
   transform: translate3d(0, 0, 0);
 }
 
-/* Elements that commonly use whileInView - prep them for animation */
+/* Prepare motion elements for smooth animation */
+[class*="motion"],
 .motion-safe {
   will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Smoother rendering for all animated content */
+main {
+  /* Isolate stacking context to reduce paint complexity */
+  isolation: isolate;
 }
 
 /* ===== PERFORMANCE OPTIMIZATIONS ===== */

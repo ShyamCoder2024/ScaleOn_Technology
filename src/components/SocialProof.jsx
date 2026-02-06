@@ -159,7 +159,7 @@ const SocialProof = ({ theme }) => {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.08 }}
-                                viewport={{ once: true, margin: "-15%" }}
+                                viewport={{ once: true, margin: "50px" }}
                                 className={cn(
                                     "p-8 rounded-2xl shadow-sm border transition-all duration-300",
                                     index === 2 ? "col-span-2 md:col-span-1" : "",

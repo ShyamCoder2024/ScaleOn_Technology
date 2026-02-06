@@ -5,7 +5,7 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 const TypingHeadline = memo(({ text, className }) => {
     const [displayedText, setDisplayedText] = useState("");
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const isInView = useInView(ref, { once: true, margin: "50px" });
 
     useEffect(() => {
         if (isInView) {
@@ -57,7 +57,7 @@ const CTA = () => {
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: "-15%" }}
+                            viewport={{ once: true, margin: "50px" }}
                             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100/50 text-indigo-600 text-xs font-bold uppercase tracking-widest mb-8 shadow-sm"
                         >
                             <Sparkles className="w-3.5 h-3.5 fill-indigo-600" />
@@ -79,7 +79,7 @@ const CTA = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-15%" }}
+                            viewport={{ once: true, margin: "50px" }}
                             transition={{ delay: 0.15 }}
                             className="flex flex-col items-center lg:items-start gap-4"
                         >
@@ -110,7 +110,7 @@ const CTA = () => {
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true, margin: "-15%" }}
+                            viewport={{ once: true, margin: "50px" }}
                             transition={{ duration: 0.4 }}
                             className="relative aspect-auto md:aspect-[4/3] rounded-[2.5rem] bg-gradient-to-br from-white to-indigo-50/50 border border-indigo-100 p-6 md:p-8 flex flex-col justify-center items-center text-center overflow-hidden shadow-[0_20px_60px_-15px_rgba(79,70,229,0.15)] backdrop-blur-sm w-[90%] max-w-[340px] mx-auto md:max-w-none md:w-full"
                         >
