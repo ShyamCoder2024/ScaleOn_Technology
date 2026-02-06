@@ -183,6 +183,29 @@ html {
   /* Removed will-change to prevent memory pressure */
 }
 
+/* ===== FIRST-SCROLL PERFORMANCE FIX ===== */
+/* Problem: whileInView animations cause frame drops on first scroll because
+   the browser isn't prepared for the animation. Solution: Add will-change hints
+   to elements that will animate, so the browser creates GPU layers in advance. */
+
+/* Framer Motion applies these data attributes to animated elements.
+   By adding will-change, we prepare GPU layers BEFORE animation starts. */
+[style*="opacity"] {
+  will-change: opacity;
+}
+
+/* Motion div/section elements that animate with transform + opacity */
+section>div,
+section>div>div {
+  /* Subtle GPU hint that helps without over-committing resources */
+  transform: translate3d(0, 0, 0);
+}
+
+/* Elements that commonly use whileInView - prep them for animation */
+.motion-safe {
+  will-change: transform, opacity;
+}
+
 /* ===== PERFORMANCE OPTIMIZATIONS ===== */
 
 /* Shimmer animation for loading states */
