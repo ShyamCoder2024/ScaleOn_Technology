@@ -1,7 +1,7 @@
 import React, { useRef, memo, useState, useEffect } from 'react';
 import { motion, useScroll, useMotionValueEvent, useInView } from 'framer-motion';
 
-const NegativeItem = memo(({ text, index, strikeScale, isTouchDevice }) => {
+const NegativeItem = memo(({ text, index, strikeRef, isTouchDevice }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
 
@@ -28,11 +28,12 @@ const NegativeItem = memo(({ text, index, strikeScale, isTouchDevice }) => {
                         <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-red-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out opacity-60 pointer-events-none" />
                     )}
 
-                    {/* Mobile/Touch: Scroll-based strikethrough using CSS transform */}
+                    {/* Mobile/Touch: Scroll-based strikethrough using ref for DOM manipulation */}
                     {isTouchDevice && (
                         <div
-                            className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-red-500 via-red-400 to-red-500 origin-left opacity-70 pointer-events-none transition-transform duration-100"
-                            style={{ transform: `scaleX(${strikeScale})` }}
+                            ref={strikeRef}
+                            className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-red-500 via-red-400 to-red-500 origin-left opacity-70 pointer-events-none"
+                            style={{ transform: 'scaleX(0)' }}
                         />
                     )}
                 </div>
@@ -48,8 +49,9 @@ const WhatWeDontDo = () => {
 
     // Detect touch device on client side
     const [isTouchDevice, setIsTouchDevice] = useState(false);
-    // PERFORMANCE: Single state for all strikethrough scales
-    const [strikeScales, setStrikeScales] = useState([0, 0, 0, 0]);
+
+    // PERFORMANCE: Refs for direct DOM manipulation - no React state updates during scroll
+    const strikeRefs = useRef([]);
 
     useEffect(() => {
         // Check if device is touch-based (no hover support)
@@ -67,8 +69,8 @@ const WhatWeDontDo = () => {
     // Throttle ref for 30fps limit
     const lastUpdateTime = useRef(0);
 
-    // PERFORMANCE: Single event listener calculates ALL strikethrough scales at once
-    // Throttled to ~30fps to reduce CPU load during slow scroll
+    // PERFORMANCE: Direct DOM manipulation instead of React state
+    // This eliminates React re-renders during scroll!
     useMotionValueEvent(scrollYProgress, "change", (progress) => {
         if (!isTouchDevice) return; // Only needed for touch devices
 
@@ -77,14 +79,20 @@ const WhatWeDontDo = () => {
         if (now - lastUpdateTime.current < 32) return;
         lastUpdateTime.current = now;
 
-        const newScales = [0, 1, 2, 3].map((index) => {
+        // Update each strikethrough directly via DOM - NO React re-render
+        [0, 1, 2, 3].forEach((index) => {
             const itemStart = index * 0.18;
             const itemEnd = itemStart + 0.22;
-            if (progress <= itemStart) return 0;
-            if (progress >= itemEnd) return 1;
-            return (progress - itemStart) / (itemEnd - itemStart);
+            let scale;
+            if (progress <= itemStart) scale = 0;
+            else if (progress >= itemEnd) scale = 1;
+            else scale = (progress - itemStart) / (itemEnd - itemStart);
+
+            // Direct DOM update
+            if (strikeRefs.current[index]) {
+                strikeRefs.current[index].style.transform = `scaleX(${scale})`;
+            }
         });
-        setStrikeScales(newScales);
     });
 
     const negatives = [
@@ -126,7 +134,7 @@ const WhatWeDontDo = () => {
                             key={index}
                             text={item}
                             index={index}
-                            strikeScale={strikeScales[index]}
+                            strikeRef={el => strikeRefs.current[index] = el}
                             isTouchDevice={isTouchDevice}
                         />
                     ))}

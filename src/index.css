@@ -328,9 +328,9 @@ section {
   /* content-visibility: auto; -> REMOVED: Causing click/scroll jitter on dynamic content */
   /* contain-intrinsic-size: auto 500px; */
   contain: layout style;
-  /* Promote to GPU layer for smoother scrolling */
-  backface-visibility: hidden;
-  transform: translateZ(0);
+  /* REMOVED: transform: translateZ(0) and backface-visibility hidden were creating
+     excessive GPU layers for every section, causing scroll jitter and memory pressure.
+     The browser now naturally optimizes compositing. */
 }
 
 /* Optimize backdrop-filter on mobile (expensive GPU operation) */

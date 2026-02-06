@@ -11,7 +11,8 @@ const isTouchDevice = () => {
 export const ScrollReveal = memo(({ text, className }) => {
     const container = useRef(null);
     const [isTouch, setIsTouch] = useState(false);
-    const [wordOpacities, setWordOpacities] = useState([]);
+    // PERFORMANCE: Array of refs for each word span - used for direct DOM manipulation
+    const wordSpanRefs = useRef([]);
 
     useEffect(() => {
         setIsTouch(isTouchDevice());
@@ -19,9 +20,9 @@ export const ScrollReveal = memo(({ text, className }) => {
 
     const words = useMemo(() => text.split(" "), [text]);
 
-    // Initialize opacities
+    // Initialize refs array
     useEffect(() => {
-        setWordOpacities(new Array(words.length).fill(0.1));
+        wordSpanRefs.current = wordSpanRefs.current.slice(0, words.length);
     }, [words.length]);
 
     const { scrollYProgress } = useScroll({
@@ -33,8 +34,8 @@ export const ScrollReveal = memo(({ text, className }) => {
     // Throttle ref for 30fps limit
     const lastUpdateTime = useRef(0);
 
-    // PERFORMANCE: Single event listener calculates ALL word opacities at once
-    // Throttled to ~30fps to reduce CPU load during slow scroll
+    // PERFORMANCE: Direct DOM manipulation instead of React state
+    // This eliminates React re-renders during scroll!
     useMotionValueEvent(scrollYProgress, "change", (progress) => {
         if (isTouch) return; // Mobile uses simple fade
 
@@ -43,14 +44,20 @@ export const ScrollReveal = memo(({ text, className }) => {
         if (now - lastUpdateTime.current < 32) return;
         lastUpdateTime.current = now;
 
-        const newOpacities = words.map((_, i) => {
+        // Update each word's opacity directly via DOM
+        words.forEach((_, i) => {
             const start = i / words.length;
             const end = start + (1 / words.length);
-            if (progress <= start) return 0.1;
-            if (progress >= end) return 1;
-            return 0.1 + ((progress - start) / (end - start)) * 0.9;
+            let opacity;
+            if (progress <= start) opacity = 0.1;
+            else if (progress >= end) opacity = 1;
+            else opacity = 0.1 + ((progress - start) / (end - start)) * 0.9;
+
+            // Direct DOM update - NO React re-render
+            if (wordSpanRefs.current[i]) {
+                wordSpanRefs.current[i].style.opacity = opacity;
+            }
         });
-        setWordOpacities(newOpacities);
     });
 
     // Mobile: Simple single opacity animation for entire block
@@ -69,16 +76,22 @@ export const ScrollReveal = memo(({ text, className }) => {
         );
     }
 
-    // Desktop: Batched per-word reveals using single state
+    // Desktop: Per-word reveals using refs (no state updates during scroll)
     return (
         <h2 ref={container} className={cn("flex flex-wrap gap-x-[0.3em] gap-y-2", className)}>
             {words.map((word, i) => (
                 <span key={i} className="relative inline-block">
                     <span className="absolute opacity-10">{word}</span>
-                    <span style={{ opacity: wordOpacities[i] || 0.1 }}>{word}</span>
+                    <span
+                        ref={el => wordSpanRefs.current[i] = el}
+                        style={{ opacity: 0.1 }}
+                    >
+                        {word}
+                    </span>
                 </span>
             ))}
         </h2>
     );
 });
 ScrollReveal.displayName = 'ScrollReveal';
+
