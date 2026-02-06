@@ -36,7 +36,7 @@ const Solutions = () => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.25 }}
+                        transition={{ duration: 0.4 }}
                         className="font-display text-4xl md:text-5xl font-bold text-zinc-900 mb-6"
                     >
                         Solutions Built for Your Business
@@ -45,7 +45,7 @@ const Solutions = () => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.25, delay: 0.1 }}
+                        transition={{ duration: 0.4, delay: 0.1 }}
                         className="text-xl text-zinc-500 max-w-2xl mx-auto"
                     >
                         Powerful, scalable solutions designed to accelerate your growth and replace manual work.
@@ -60,7 +60,7 @@ const Solutions = () => {
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.25, delay: index * 0.035 }}
+                            transition={{ duration: 0.4, delay: index * 0.035 }}
                             whileHover={{ y: -10 }}
                             className="bg-white rounded-3xl p-8 shadow-lg shadow-zinc-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 border border-zinc-100 hover:border-indigo-500/30 transition-all duration-300 group relative overflow-hidden"
                         >

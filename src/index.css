@@ -183,53 +183,22 @@ html {
   /* Removed will-change to prevent memory pressure */
 }
 
-/* ===== MOBILE ANIMATION OPTIMIZATION ===== */
+/* ===== MOBILE SCROLL PERFORMANCE ===== */
 /* 
-   Problem: Framer Motion's opacity: 0 → 1 animations cause "blinking" on mobile
-   because the transition is visible as a sudden appearance.
+   IMPORTANT: Do NOT override transition-duration as it conflicts with Framer Motion.
+   Framer Motion calculates its own animation timing and CSS overrides break it.
    
-   Solution: On mobile, make animations FASTER so the opacity transition
-   completes quickly and appears smoother. Keep animations intact!
+   Instead, we only apply non-conflicting optimizations:
 */
-@media (hover: none) and (pointer: coarse) {
-
-  /* Speed up ALL transitions on mobile for snappier feel */
-  *:not(.no-transition-override) {
-    transition-duration: 0.15s !important;
-  }
-
-  /* Animated elements get GPU boost for smoother rendering */
-  [style*="opacity"],
-  [style*="transform"] {
-    will-change: opacity, transform;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
-}
-
-/* Only apply GPU hints to main content area - not all elements */
-main {
-  /* Isolate stacking context to reduce paint complexity */
-  isolation: isolate;
-}
-
-/* Sections get subtle GPU prep without over-committing */
-section {
-  /* Ensure each section paints independently */
-  contain: layout style paint;
-}
-
-/* ===== MOBILE: OPTIMIZE HEAVY EFFECTS ===== */
-/* Large blur effects and fast animations cause GPU strain on mobile */
 @media (hover: none) and (pointer: coarse) {
 
   /* Reduce large blur effects that cause GPU strain */
   .blur-\[100px\],
   .blur-\[120px\] {
-    filter: blur(40px) !important;
+    filter: blur(30px) !important;
   }
 
-  /* Slow down continuous animations to reduce GPU load */
+  /* Slow down heavy continuous CSS animations (not Framer Motion) */
   .animate-pulse-scale,
   .animate-connection-dot,
   .animate-connection-dot-delayed,

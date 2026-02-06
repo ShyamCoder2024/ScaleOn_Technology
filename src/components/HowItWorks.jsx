@@ -32,7 +32,7 @@ const StepCard = memo(({ icon: Icon, title, description, stepNumber, isActive, i
                             borderColor: isActive ? '#E0E7FF' : '#F4F4F5',
                             boxShadow: isActive ? '0 10px 25px -5px rgba(79, 70, 229, 0.1), 0 8px 10px -6px rgba(79, 70, 229, 0.1)' : '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
                         }}
-                        transition={{ duration: 0.25 }}
+                        transition={{ duration: 0.4 }}
                         className="w-24 h-24 rounded-[2rem] bg-white border flex items-center justify-center relative z-10 overflow-hidden"
                     >
                         <motion.div

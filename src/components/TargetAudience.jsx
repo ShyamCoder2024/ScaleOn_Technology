@@ -37,7 +37,7 @@ const SpotlightCard = memo(({ icon: Icon, label, index, className }) => {
             onMouseLeave={handleMouseLeave}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.03, duration: 0.25 }}
+            transition={{ delay: index * 0.03, duration: 0.4 }}
             viewport={{ once: true, margin: "50px" }}
             className={cn(
                 "relative overflow-hidden rounded-2xl border border-zinc-200/60 bg-white p-8 md:p-10 shadow-sm transition-all duration-300 hover:shadow-xl group",
