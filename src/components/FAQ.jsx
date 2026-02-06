@@ -35,7 +35,7 @@ const FAQItem = memo(({ question, answer, isOpen, onClick, index }) => {
                 style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
             >
                 <div className="overflow-hidden">
-                    <div className="px-6 pb-6 pt-2 text-zinc-500 leading-relaxed bg-white rounded-b-2xl mx-1 shadow-xl shadow-indigo-100/50 ring-1 ring-indigo-50 border-t-0 -mt-2 relative z-10">
+                    <div className="px-4 md:px-6 pb-5 pt-4 text-zinc-500 text-sm md:text-base leading-relaxed bg-white rounded-b-2xl shadow-lg border border-t-0 border-zinc-100">
                         {answer}
                     </div>
                 </div>

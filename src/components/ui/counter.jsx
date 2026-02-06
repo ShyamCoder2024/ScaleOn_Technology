@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, memo } from "react";
+import React, { useEffect, useRef, useState, memo } from "react";
 import { useInView, useMotionValue, useSpring } from "framer-motion";
 
 export const Counter = memo(({
@@ -11,12 +11,14 @@ export const Counter = memo(({
     prefix = "",
 }) => {
     const ref = useRef(null);
+    const [displayValue, setDisplayValue] = useState(direction === "down" ? value : 0);
     const motionValue = useMotionValue(direction === "down" ? value : 0);
     const springValue = useSpring(motionValue, {
         damping: 60,
         stiffness: 100,
     });
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    // Use positive margin for reliable mobile detection
+    const isInView = useInView(ref, { once: true, margin: "50px" });
 
     useEffect(() => {
         if (isInView) {
@@ -25,14 +27,18 @@ export const Counter = memo(({
     }, [motionValue, isInView, direction, value, delay]);
 
     useEffect(() => {
-        springValue.on("change", (latest) => {
+        const unsubscribe = springValue.on("change", (latest) => {
+            const newValue = prefix + latest.toFixed(decimalPlaces) + suffix;
+            setDisplayValue(newValue);
             if (ref.current) {
-                ref.current.textContent = prefix + latest.toFixed(decimalPlaces) + suffix;
+                ref.current.textContent = newValue;
             }
         });
+        return () => unsubscribe();
     }, [springValue, decimalPlaces, suffix, prefix]);
 
-    return <span ref={ref} className={className} />;
+    // Show initial value immediately (important for mobile)
+    return <span ref={ref} className={className}>{prefix}{(direction === "down" ? value : 0).toFixed(decimalPlaces)}{suffix}</span>;
 });
 
 Counter.displayName = 'Counter';
