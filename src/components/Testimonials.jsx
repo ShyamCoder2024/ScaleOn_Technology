@@ -58,7 +58,7 @@ const Testimonials = () => {
         <section className="py-20 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0.85, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                     viewport={{ once: true }}

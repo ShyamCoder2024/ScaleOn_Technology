@@ -54,9 +54,9 @@ const ProblemSolution = () => {
                         {activeTab === 'problem' ? (
                             <motion.div
                                 key="problem"
-                                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                                initial={{ opacity: 0.85, scale: 0.95, y: 10 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                                exit={{ opacity: 0.85, scale: 0.95, y: -10 }}
                                 transition={{ duration: 0.4, ease: "easeOut" }}
                                 className="absolute inset-0 bg-red-50/50 rounded-3xl border border-red-100 p-5 md:p-12"
                             >
@@ -111,9 +111,9 @@ const ProblemSolution = () => {
                         ) : (
                             <motion.div
                                 key="solution"
-                                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                                initial={{ opacity: 0.85, scale: 0.95, y: 10 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                                exit={{ opacity: 0.85, scale: 0.95, y: -10 }}
                                 transition={{ duration: 0.4, ease: "easeOut" }}
                                 className="absolute inset-0 bg-gradient-to-br from-indigo-900 to-indigo-950 rounded-3xl border border-indigo-800 p-5 md:p-12 text-white overflow-hidden shadow-2xl"
                             >
@@ -137,7 +137,7 @@ const ProblemSolution = () => {
                                             ].map((item, i) => (
                                                 <motion.li
                                                     key={i}
-                                                    initial={{ opacity: 0, x: -20 }}
+                                                    initial={{ opacity: 0.85, x: -20 }}
                                                     animate={{ opacity: 1, x: 0 }}
                                                     transition={{ delay: 0.1 + (i * 0.1) }}
                                                     className="flex items-center gap-4 text-sm md:text-lg text-indigo-100/90 font-light"

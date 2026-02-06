@@ -5,7 +5,7 @@ import { Plus, Minus, MessageCircle } from 'lucide-react';
 const FAQItem = memo(({ question, answer, isOpen, onClick, index }) => {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0.85, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.02 }}
             viewport={{ once: true, margin: "50px" }}
@@ -86,7 +86,7 @@ const FAQ = () => {
                     <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left">
                         <div className="lg:sticky lg:top-16 w-full flex flex-col items-center lg:items-start">
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0.85, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "50px" }}
                                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6"
@@ -96,7 +96,7 @@ const FAQ = () => {
                             </motion.div>
 
                             <motion.h2
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0.85, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "50px" }}
                                 transition={{ delay: 0.1 }}
@@ -106,7 +106,7 @@ const FAQ = () => {
                             </motion.h2>
 
                             <motion.p
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0.85, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "50px" }}
                                 transition={{ delay: 0.15 }}
@@ -116,7 +116,7 @@ const FAQ = () => {
                             </motion.p>
 
                             <motion.a
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0.85, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "50px" }}
                                 transition={{ delay: 0.2 }}

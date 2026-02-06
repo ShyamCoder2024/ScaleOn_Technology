@@ -98,14 +98,14 @@ const features = [
         visual: (
             <div className="w-full h-full p-6 flex flex-col justify-end space-y-4">
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={{ opacity: 0.85, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="self-start max-w-[80%] bg-zinc-800 rounded-2xl rounded-tl-none p-3 text-sm text-zinc-300 border border-zinc-700"
                 >
                     How do I reset my API key?
                 </motion.div>
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={{ opacity: 0.85, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.5 }}
                     className="self-end max-w-[80%] bg-indigo-600 text-white rounded-2xl rounded-tr-none p-3 text-sm shadow-lg shadow-indigo-500/20"
@@ -116,7 +116,7 @@ const features = [
                     You can reset your API key in the Settings dashboard under the "Security" tab. Would you like me to send you a direct link?
                 </motion.div>
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={{ opacity: 0.85, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 1.5 }}
                     className="self-start max-w-[80%] bg-zinc-800 rounded-2xl rounded-tl-none p-3 text-sm text-zinc-300 border border-zinc-700"
@@ -142,7 +142,7 @@ const TechShowcase = () => {
                     {/* Left: Content */}
                     <div>
                         <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0.85, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             className="text-3xl md:text-5xl font-bold text-white mb-6 font-display"
@@ -197,9 +197,9 @@ const TechShowcase = () => {
                                 <AnimatePresence mode="wait">
                                     <motion.div
                                         key={features[activeFeature].id}
-                                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                                        initial={{ opacity: 0.85, scale: 0.95, y: 10 }}
                                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                                        exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
+                                        exit={{ opacity: 0.85, scale: 1.05, filter: "blur(10px)" }}
                                         transition={{ duration: 0.4 }}
                                         className="w-full h-full"
                                     >

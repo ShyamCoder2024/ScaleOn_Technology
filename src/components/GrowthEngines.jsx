@@ -129,7 +129,7 @@ const GrowthEngines = () => {
                 <div className="mb-20 md:flex md:items-end md:justify-between">
                     <div className="max-w-2xl">
                         <motion.div
-                            initial={{ opacity: 0, x: -20 }}
+                            initial={{ opacity: 0.85, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true, margin: "50px" }}
                             className="flex items-center gap-2 mb-4"
@@ -138,7 +138,7 @@ const GrowthEngines = () => {
                             <span className="text-indigo-400 font-medium tracking-widest uppercase text-xs">Powerful & Proven</span>
                         </motion.div>
                         <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0.85, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "50px" }}
                             className="mobile-h1 text-4xl md:text-5xl font-bold text-white mb-4 font-display"

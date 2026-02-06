@@ -55,7 +55,7 @@ const CTA = () => {
                     {/* Left: Text Content */}
                     <div className="flex-1 text-center lg:text-left w-full flex flex-col items-center lg:items-start">
                         <motion.div
-                            initial={{ opacity: 0, x: -20 }}
+                            initial={{ opacity: 0.85, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true, margin: "50px" }}
                             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100/50 text-indigo-600 text-xs font-bold uppercase tracking-widest mb-8 shadow-sm"
@@ -77,7 +77,7 @@ const CTA = () => {
                         </p>
 
                         <motion.div
-                            initial={{ opacity: 0, y: 10 }}
+                            initial={{ opacity: 0.85, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "50px" }}
                             transition={{ delay: 0.15 }}
@@ -108,7 +108,7 @@ const CTA = () => {
                     {/* Right: Interactive Visual */}
                     <div className="w-full lg:w-[45%] flex justify-center lg:block">
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
+                            initial={{ opacity: 0.85, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, margin: "50px" }}
                             transition={{ duration: 0.4 }}

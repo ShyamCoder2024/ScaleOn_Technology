@@ -31,7 +31,7 @@ const Industries = () => {
                 {/* Section Header */}
                 <div className="text-center mb-16">
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0.85, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         className="font-display text-3xl md:text-5xl font-bold text-zinc-900 mb-4"
@@ -39,7 +39,7 @@ const Industries = () => {
                         Industry-Specific Solutions
                     </motion.h2>
                     <motion.p
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0.85, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
@@ -54,7 +54,7 @@ const Industries = () => {
                     {industries.map((industry, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0.85, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.03 }}

@@ -8,7 +8,7 @@ const NegativeItem = memo(({ text, index, strikeRef, isTouchDevice }) => {
     return (
         <div ref={ref} className="relative group cursor-default">
             <motion.div
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0.85, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ index: index * 0.1, duration: 0.4 }}
                 className="flex items-center gap-6 py-6 border-b border-white/5 group-hover:border-white/10 transition-colors"
@@ -110,7 +110,7 @@ const WhatWeDontDo = () => {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-20">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0.85, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true, margin: "50px" }}
                         className="inline-block mb-6 px-4 py-1.5 border border-red-900/30 bg-red-900/10 rounded-full"
@@ -119,7 +119,7 @@ const WhatWeDontDo = () => {
                     </motion.div>
 
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0.85, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "50px" }}
                         className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 font-display tracking-tight mb-8"
@@ -142,7 +142,7 @@ const WhatWeDontDo = () => {
                 </div>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0.85, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "50px" }}
                     className="text-center"

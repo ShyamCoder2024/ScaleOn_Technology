@@ -31,7 +31,7 @@ const MagicCard = memo(({ icon: Icon, title, description, delay }) => {
     return (
         <motion.div
             ref={cardRef}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0.85, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay, duration: 0.4 }}
             viewport={{ once: true, margin: "50px" }}
@@ -98,7 +98,7 @@ const SystemServices = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-20">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0.85, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true, margin: "50px" }}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-zinc-200 text-zinc-600 text-xs font-bold uppercase tracking-wider mb-6 shadow-sm"
@@ -108,7 +108,7 @@ const SystemServices = () => {
                     </motion.div>
 
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0.85, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "50px" }}
                         className="text-4xl md:text-5xl font-bold text-zinc-900 mb-6 font-display tracking-tight"
@@ -129,7 +129,7 @@ const SystemServices = () => {
 
                 <div className="mt-16 text-center">
                     <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0.85, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "50px" }}
                         transition={{ delay: 0.4 }}

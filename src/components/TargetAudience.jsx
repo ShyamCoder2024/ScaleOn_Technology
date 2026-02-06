@@ -35,7 +35,7 @@ const SpotlightCard = memo(({ icon: Icon, label, index, className }) => {
             ref={divRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0.85, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.03, duration: 0.4 }}
             viewport={{ once: true, margin: "50px" }}
@@ -118,7 +118,7 @@ const TargetAudience = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="max-w-3xl mx-auto text-center mb-20">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0.85, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "50px" }}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-sm font-medium mb-6"
@@ -128,7 +128,7 @@ const TargetAudience = () => {
                     </motion.div>
 
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0.85, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "50px" }}
                         transition={{ delay: 0.1 }}
@@ -152,7 +152,7 @@ const TargetAudience = () => {
                 </div>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0.85, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "50px" }}
                     transition={{ delay: 0.3 }}
