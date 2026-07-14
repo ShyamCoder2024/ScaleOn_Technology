@@ -1,10 +1,23 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { hydrateRoot, createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const rootElement = document.getElementById('root');
+
+// If root has pre-rendered content, hydrate it; otherwise create fresh root
+if (rootElement.innerHTML.trim().length > 0) {
+  hydrateRoot(
+    rootElement,
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+} else {
+  createRoot(rootElement).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+}
+
