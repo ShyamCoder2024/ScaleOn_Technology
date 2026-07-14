@@ -31,6 +31,11 @@ export default defineConfig({
     }),
     verifyPrerenderedHomepage(),
   ],
+  build: {
+    // The deferred Spline runtime and its physics engine are intentionally
+    // large standalone chunks. They load only when the hero scene is visible.
+    chunkSizeWarningLimit: 2100,
+  },
   server: {
     open: false,
   },
