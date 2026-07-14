@@ -73,11 +73,18 @@
   {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": "https://www.scaleontechnology.in/#organization",
     "name": "Scaleon Technologies",
     "alternateName": "ScaleOn",
     "url": "https://www.scaleontechnology.in",
     "logo": "https://www.scaleontechnology.in/logo.png",
     "description": "AI-powered business automation, AI agents, and SaaS applications for Indian businesses.",
+    "founder": {
+      "@type": "Person",
+      "@id": "https://www.scaleontechnology.in/#founder",
+      "name": "Shyam Mangaonkar",
+      "jobTitle": "Founder"
+    },
     "foundingDate": "2024",
     "address": {
       "@type": "PostalAddress",
@@ -92,7 +99,7 @@
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer service",
-      "email": "scaleontechnologies@gmail.com",
+      "email": "scaleontechnology@gmail.com",
       "availableLanguage": ["English", "Hindi"]
     },
     "areaServed": {
@@ -108,6 +115,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": "https://www.scaleontechnology.in/#website",
     "name": "Scaleon Technologies",
     "url": "https://www.scaleontechnology.in",
     "potentialAction": {
@@ -118,11 +126,31 @@
   }
   </script>
 
+  <!-- Structured Data - the crawlable homepage and its primary entity -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://www.scaleontechnology.in/#webpage",
+    "url": "https://www.scaleontechnology.in/",
+    "name": "Scaleon Technologies - AI-Powered Business Automation",
+    "description": "Scaleon Technologies builds AI-powered business automation, AI agents, SaaS applications, and custom software for Indian businesses.",
+    "inLanguage": "en-IN",
+    "isPartOf": {
+      "@id": "https://www.scaleontechnology.in/#website"
+    },
+    "about": {
+      "@id": "https://www.scaleontechnology.in/#organization"
+    }
+  }
+  </script>
+
   <!-- Structured Data - LocalBusiness -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
+    "@id": "https://www.scaleontechnology.in/#localbusiness",
     "name": "Scaleon Technologies",
     "image": "https://www.scaleontechnology.in/logo.png",
     "url": "https://www.scaleontechnology.in",
@@ -141,12 +169,65 @@
       "longitude": 73.8567
     },
     "priceRange": "$$",
+    "parentOrganization": {
+      "@id": "https://www.scaleontechnology.in/#organization"
+    },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       "opens": "09:00",
       "closes": "18:00"
     }
+  }
+  </script>
+
+  <!-- Structured Data - FAQs that are available on this page -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this custom-built for my business?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. We don't sell generic templates. We analyze your specific workflow—whether you're a clinic, agency, or retailer—and build automation that fits exactly how you operate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does setup take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most systems go live in 2-4 weeks. We handle the entire audit, build, and integration process so you don't have to pause your operations."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it expensive?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We prioritize ROI. Our solutions are designed to pay for themselves by recovering lost leads and saving manual labor hours. We offer flexible pricing based on the complexity of your needs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you provide support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Always. We don't just hand over the keys and leave. You get dedicated support to ensure your systems keep running smoothly as you scale."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can this integrate with WhatsApp / existing tools?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. We specialize in WhatsApp automation and can integrate with your existing CRM, sheets, or booking software."
+        }
+      }
+    ]
   }
   </script>
 </head>

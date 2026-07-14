@@ -43,11 +43,11 @@ const Footer = () => {
                 {/* Contact Section - Minimal Mobile Row */}
                 <div className="border-t border-white/5 py-8 md:py-0 md:border-none md:mt-0 flex flex-col items-center md:items-start md:flex-row md:justify-between gap-6 mb-8 md:mb-0">
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-8 text-xs md:text-sm text-zinc-500">
-                        <a href="mailto:scaleontechnologies@gmail.com" className="flex items-center gap-3 hover:text-white transition-colors group">
+                        <a href="mailto:scaleontechnology@gmail.com" className="flex items-center gap-3 hover:text-white transition-colors group">
                             <div className="p-2 rounded-full bg-white/5 group-hover:bg-white/10 transition-colors">
                                 <Mail size={14} className="text-white" />
                             </div>
-                            scaleontechnologies@gmail.com
+                            scaleontechnology@gmail.com
                         </a>
                         <div className="flex items-center gap-3">
                             <div className="p-2 rounded-full bg-white/5">
