@@ -1,4 +1,4 @@
-import { Suspense, lazy, memo, useState, useEffect, useRef } from 'react';
+import { Suspense, lazy, memo, useState, useEffect, useRef, useCallback } from 'react';
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
 // Optimized loading skeleton with shimmer effect
@@ -18,6 +18,25 @@ export const SplineScene = memo(({ scene, className }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [hasLoaded, setHasLoaded] = useState(false);
     const containerRef = useRef(null);
+    // PERFORMANCE: keep a handle to the Spline runtime so we can pause the
+    // WebGL render loop whenever the scene is off-screen or the tab is hidden.
+    const splineAppRef = useRef(null);
+    const isOnScreenRef = useRef(true);
+
+    const syncPlayState = useCallback(() => {
+        const app = splineAppRef.current;
+        if (!app) return;
+        const shouldRun = isOnScreenRef.current && !document.hidden;
+        try {
+            if (shouldRun && app.isStopped) {
+                app.play();
+            } else if (!shouldRun && !app.isStopped) {
+                app.stop();
+            }
+        } catch {
+            // Runtime not ready yet - the next visibility change will retry.
+        }
+    }, []);
 
     // Use Intersection Observer to defer loading until visible
     useEffect(() => {
@@ -38,6 +57,30 @@ export const SplineScene = memo(({ scene, className }) => {
         return () => observer.disconnect();
     }, []);
 
+    // PERFORMANCE: once loaded, stop the 3D runtime entirely while the hero is
+    // scrolled out of view or the tab is in the background. This frees the GPU
+    // and main thread for the rest of the page - the single biggest cost on
+    // low-end devices. The scene resumes seamlessly when it re-enters view.
+    useEffect(() => {
+        if (!hasLoaded || !containerRef.current) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                isOnScreenRef.current = entry.isIntersecting;
+                syncPlayState();
+            },
+            { rootMargin: '100px' }
+        );
+        observer.observe(containerRef.current);
+
+        document.addEventListener('visibilitychange', syncPlayState);
+
+        return () => {
+            observer.disconnect();
+            document.removeEventListener('visibilitychange', syncPlayState);
+        };
+    }, [hasLoaded, syncPlayState]);
+
     return (
         <div ref={containerRef} className={`${className} relative`} style={{ position: 'relative' }}>
             {!isVisible ? (
@@ -48,7 +91,10 @@ export const SplineScene = memo(({ scene, className }) => {
                         <Spline
                             scene={scene}
                             className={className}
-                            onLoad={() => setHasLoaded(true)}
+                            onLoad={(app) => {
+                                splineAppRef.current = app;
+                                setHasLoaded(true);
+                            }}
                             style={{
                                 opacity: hasLoaded ? 1 : 0,
                                 transition: 'opacity 0.5s ease-out',

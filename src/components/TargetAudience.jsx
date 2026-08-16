@@ -9,22 +9,37 @@ const isTouchDevice = typeof window !== 'undefined' && window.matchMedia('(hover
 const SpotlightCard = memo(({ icon: Icon, label, index, className }) => {
     const divRef = useRef(null);
     const spotlightRef = useRef(null);
+    const frameRef = useRef(0);
+    const pointerRef = useRef({ x: 0, y: 0 });
 
-    // PERFORMANCE: Use DOM manipulation instead of React state for mouse position
+    // PERFORMANCE: DOM manipulation instead of React state, coalesced with
+    // requestAnimationFrame so at most one layout read/style write per frame.
     const handleMouseMove = useCallback((e) => {
         // Skip on touch devices
         if (isTouchDevice || !spotlightRef.current) return;
 
-        const rect = divRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        pointerRef.current.x = e.clientX;
+        pointerRef.current.y = e.clientY;
+        if (frameRef.current) return;
 
-        // Direct DOM update - no React re-render
-        spotlightRef.current.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(37,99,235,0.08), transparent 40%)`;
-        spotlightRef.current.style.opacity = '1';
+        frameRef.current = requestAnimationFrame(() => {
+            frameRef.current = 0;
+            if (!divRef.current || !spotlightRef.current) return;
+            const rect = divRef.current.getBoundingClientRect();
+            const x = pointerRef.current.x - rect.left;
+            const y = pointerRef.current.y - rect.top;
+
+            // Direct DOM update - no React re-render
+            spotlightRef.current.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(37,99,235,0.08), transparent 40%)`;
+            spotlightRef.current.style.opacity = '1';
+        });
     }, []);
 
     const handleMouseLeave = useCallback(() => {
+        if (frameRef.current) {
+            cancelAnimationFrame(frameRef.current);
+            frameRef.current = 0;
+        }
         if (spotlightRef.current) {
             spotlightRef.current.style.opacity = '0';
         }

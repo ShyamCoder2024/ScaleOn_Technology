@@ -2,30 +2,30 @@ import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Mic2, MessageSquare, GraduationCap, ArrowRight, Zap, Grip, ShoppingCart } from 'lucide-react';
 
+// PERFORMANCE: the aurora glows are pre-blurred radial gradients instead of
+// live filter:blur layers (8 giant GPU blurs replaced). The gradient is built
+// at hover strength and shown at 50% opacity, so hovering simply fades opacity
+// 0.5 -> 1 - the exact same /10 -> /20 brightening as before, far cheaper.
 const colorVariants = {
     rose: {
         text: "text-rose-400",
         hoverText: "group-hover:text-rose-300",
-        bg: "bg-rose-500/10",
-        hoverBg: "group-hover:bg-rose-500/20",
+        glow: "bg-[radial-gradient(circle_at_center,rgba(244,63,94,0.2)_0%,rgba(244,63,94,0.12)_45%,transparent_72%)]",
     },
     emerald: {
         text: "text-emerald-400",
         hoverText: "group-hover:text-emerald-300",
-        bg: "bg-emerald-500/10",
-        hoverBg: "group-hover:bg-emerald-500/20",
+        glow: "bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.2)_0%,rgba(16,185,129,0.12)_45%,transparent_72%)]",
     },
     blue: {
         text: "text-blue-400",
         hoverText: "group-hover:text-blue-300",
-        bg: "bg-blue-500/10",
-        hoverBg: "group-hover:bg-blue-500/20",
+        glow: "bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.2)_0%,rgba(59,130,246,0.12)_45%,transparent_72%)]",
     },
     violet: {
         text: "text-violet-400",
         hoverText: "group-hover:text-violet-300",
-        bg: "bg-violet-500/10",
-        hoverBg: "group-hover:bg-violet-500/20",
+        glow: "bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.2)_0%,rgba(139,92,246,0.12)_45%,transparent_72%)]",
     }
 };
 
@@ -40,8 +40,8 @@ const AuroraCard = ({ title, subtext, tags, icon: Icon, delay, color, className,
             className={`group relative overflow-hidden rounded-[2rem] bg-[#0A0A0B] border border-zinc-800 p-6 md:p-8 h-[400px] md:h-[380px] flex flex-col justify-between hover:border-zinc-700 transition-colors duration-500 ${className}`}
         >
             {/* Dynamic Aurora Background */}
-            <div className={`absolute top-0 right-0 w-[400px] h-[400px] ${theme.bg} rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 ${theme.hoverBg} transition-all duration-700`} />
-            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-indigo-500/5 rounded-full blur-[60px] translate-y-1/3 -translate-x-1/3" />
+            <div className={`absolute top-0 right-0 w-[400px] h-[400px] ${theme.glow} -translate-y-1/2 translate-x-1/3 opacity-50 group-hover:opacity-100 transition-opacity duration-700`} />
+            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.05)_0%,rgba(99,102,241,0.03)_45%,transparent_72%)] translate-y-1/3 -translate-x-1/3" />
 
             {/* Content Layer */}
             <div className="relative z-10">

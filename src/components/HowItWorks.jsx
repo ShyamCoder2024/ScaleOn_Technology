@@ -1,5 +1,5 @@
-import React, { useState, useEffect, memo, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, memo, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Search, Settings, TrendingUp, Check } from 'lucide-react';
 import { AnimatedGridPattern } from "./ui/animated-grid-pattern";
 import { cn } from "../lib/utils";
@@ -74,6 +74,10 @@ const StepCard = memo(({ icon: Icon, title, description, stepNumber, isActive, i
 StepCard.displayName = 'StepCard';
 
 const HowItWorks = () => {
+    const sectionRef = useRef(null);
+    // PERFORMANCE: only run the step sequence while the section is on screen.
+    // The interval (and every Framer animation it triggers) pauses off-screen.
+    const isInView = useInView(sectionRef, { margin: '100px' });
     const [activeStep, setActiveStep] = useState(0);
 
     // Sequence:
@@ -85,6 +89,8 @@ const HowItWorks = () => {
     // 3: Reset (Wait). Line cuts to 0%.
 
     useEffect(() => {
+        if (!isInView) return;
+
         const timer = setInterval(() => {
             setActiveStep((prev) => {
                 if (prev === 2) return 0; // After 2, snap to 0
@@ -92,7 +98,7 @@ const HowItWorks = () => {
             });
         }, 2500); // 2.5 seconds per step
         return () => clearInterval(timer);
-    }, []);
+    }, [isInView]);
 
     const steps = [
         {
@@ -126,11 +132,13 @@ const HowItWorks = () => {
     // Transition to Step 2: Width becomes 100%.
 
     // To fix 'reverse', we strictly control the transition duration.
-    const lineWidth = activeStep === 0 ? '0%' : activeStep === 1 ? '50%' : '100%';
+    // PERFORMANCE: animate scaleX (GPU compositor) instead of width (layout).
+    // The beam sits inside an overflow-hidden track, so it looks identical.
+    const lineScale = activeStep === 0 ? 0 : activeStep === 1 ? 0.5 : 1;
     const isResetting = activeStep === 0;
 
     return (
-        <section className="py-16 md:py-32 relative overflow-hidden">
+        <section ref={sectionRef} className="py-16 md:py-32 relative overflow-hidden">
             <AnimatedGridPattern
                 numSquares={30}
                 maxOpacity={0.1}
@@ -171,9 +179,10 @@ const HowItWorks = () => {
                     <div className="hidden md:block absolute top-[60px] left-[16%] right-[16%] h-[3px] bg-zinc-100 rounded-full z-0 overflow-hidden">
                         {/* Animated Blue Line Fill */}
                         <motion.div
-                            className="h-full bg-indigo-500 shadow-[0_0_10px_rgba(79,70,229,0.5)]"
-                            initial={{ width: '0%' }}
-                            animate={{ width: lineWidth }}
+                            className="h-full w-full bg-indigo-500 shadow-[0_0_10px_rgba(79,70,229,0.5)]"
+                            style={{ originX: 0 }}
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: lineScale }}
                             // KEY FIX: Instant duration when reseting to 0 (to avoid reverse animation), smooth otherwise.
                             transition={{ duration: isResetting ? 0 : 1.5, ease: "easeInOut" }}
                         />

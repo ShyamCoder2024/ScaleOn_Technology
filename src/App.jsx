@@ -12,17 +12,13 @@ import FAQ from './components/FAQ';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 
-import { useState, useEffect, useRef } from 'react';
-import { cn } from './lib/utils';
+import { useEffect, useRef } from 'react';
+import { themeStore } from './lib/theme';
 
 function App() {
-  const [theme, setTheme] = useState('light');
-
   // Refs for dark theme sections
   const growthEnginesRef = useRef(null);
   const whatWeDontDoRef = useRef(null);
-  const ticking = useRef(false); // For scroll throttling
-  const lastScrollTime = useRef(0); // For additional throttling
 
   // Refs for theme logic
   const darkSectionsInView = useRef(new Set());
@@ -30,7 +26,8 @@ function App() {
   const lastThemeRef = useRef('light');
 
   // PERFORMANCE: Use Intersection Observer with wider detection zone for mobile reliability
-  // This ensures the header theme switches correctly on all devices including during fast scrolls
+  // This ensures the header theme switches correctly on all devices including during fast scrolls.
+  // The theme is pushed into an external store + CSS variables, so App itself NEVER re-renders.
   useEffect(() => {
     const options = {
       root: null,
@@ -64,7 +61,7 @@ function App() {
         }
         themeDebounceRef.current = setTimeout(() => {
           lastThemeRef.current = newTheme;
-          setTheme(newTheme);
+          themeStore.set(newTheme);
         }, 16);
       }
     };
@@ -89,17 +86,35 @@ function App() {
     };
   }, []);
 
+  // PERFORMANCE: One shared observer pauses every CSS animation inside
+  // off-screen sections (marquees, pulses, grid fades, typing cursors...).
+  // It writes a data attribute directly on the DOM, so this costs zero
+  // React renders and frees the compositor/main thread while scrolling.
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return;
+
+    const targets = document.querySelectorAll('main section, footer');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.dataset.offscreen = entry.isIntersecting ? 'false' : 'true';
+        });
+      },
+      // Generous margin so animations are already running before entering view
+      { rootMargin: '160px 0px 160px 0px' }
+    );
+
+    targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="min-h-screen relative isolate">
-      {/* PERFORMANCE: Fixed background layer prevents repainting the entire DOM tree on theme change */}
-      <div
-        className={cn(
-          "fixed inset-0 -z-50 transition-colors duration-700 ease-out",
-          theme === 'dark' ? "bg-[#050505]" : "bg-white"
-        )}
-      />
+      {/* PERFORMANCE: Fixed background layer prevents repainting the entire DOM tree on theme change.
+          Its color is driven purely by CSS via html[data-theme] - no React involved. */}
+      <div className="theme-bg fixed inset-0 -z-50" />
 
-      <Header theme={theme} />
+      <Header />
       <main>
         <Hero />
         <TrustBar />
@@ -113,7 +128,7 @@ function App() {
         <div ref={whatWeDontDoRef}>
           <WhatWeDontDo />
         </div>
-        <SocialProof theme={theme} />
+        <SocialProof />
         <FAQ />
         <CTA />
       </main>

@@ -42,9 +42,9 @@ const CTA = () => {
         <section ref={containerRef} id="contact" className="py-16 pb-24 md:py-32 relative overflow-hidden isolate">
             <div className="absolute inset-0 -z-10" />
 
-            {/* Ambient Glows */}
-            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-indigo-50/80 blur-[120px] rounded-full pointer-events-none" />
-            <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-50/80 blur-[120px] rounded-full pointer-events-none" />
+            {/* Ambient Glows - PERFORMANCE: radial gradients replace blur-[120px] */}
+            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(238,242,255,0.8)_0%,rgba(238,242,255,0.45)_45%,transparent_72%)] pointer-events-none" />
+            <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(250,245,255,0.8)_0%,rgba(250,245,255,0.45)_45%,transparent_72%)] pointer-events-none" />
 
             {/* Grid Pattern */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />

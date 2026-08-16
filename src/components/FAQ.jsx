@@ -76,9 +76,9 @@ const FAQ = () => {
 
     return (
         <section id="faq" className="py-16 md:py-24 relative overflow-hidden scroll-mt-24">
-            {/* Background Decoration */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-50/50 blur-[100px] rounded-full pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-50/50 blur-[100px] rounded-full pointer-events-none" />
+            {/* Background Decoration - PERFORMANCE: radial gradients replace blur-[100px] */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_center,rgba(238,242,255,0.5)_0%,rgba(238,242,255,0.3)_45%,transparent_72%)] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_center,rgba(250,245,255,0.5)_0%,rgba(250,245,255,0.3)_45%,transparent_72%)] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-start">

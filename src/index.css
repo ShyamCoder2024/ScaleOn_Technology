@@ -46,8 +46,38 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Fixed background layer - color driven by html[data-theme] set from the
+   theme store. Crossing dark sections repaints only this one layer instead
+   of re-rendering the React tree. */
+.theme-bg {
+  background-color: #ffffff;
+  transition: background-color 0.7s ease-out;
+}
+
+html[data-theme='dark'] .theme-bg {
+  background-color: #050505;
+}
+
+/* PERFORMANCE: sections that scroll out of view get data-offscreen="true"
+   from a single shared IntersectionObserver. Pausing their CSS animations
+   (marquees, pulses, grid fades, cursors) frees the compositor and main
+   thread while the user scrolls elsewhere. Framer Motion springs and CSS
+   transitions are unaffected. */
+[data-offscreen='true'],
+[data-offscreen='true'] * {
+  animation-play-state: paused !important;
+}
+
 html {
   scroll-behavior: auto;
+}
+
+/* PREMIUM: native smooth anchor scrolling on capable pointer devices.
+   Compositor-driven (no JS), and respects prefers-reduced-motion. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* On mobile, disable scroll-behavior:smooth to avoid jank */

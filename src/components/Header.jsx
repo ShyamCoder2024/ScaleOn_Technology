@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../lib/theme';
 
-const Header = ({ theme }) => {
+const Header = () => {
+    const theme = useTheme();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const ticking = useRef(false);
@@ -35,7 +37,9 @@ const Header = ({ theme }) => {
 
     return (
         <>
-            <motion.header
+            {/* PERFORMANCE: plain sticky header (no motion wrapper needed) and no
+                will-change hint - the browser promotes it naturally when blurred. */}
+            <header
                 className={`sticky top-0 left-0 right-0 z-[100] transition-[background-color,padding,border-color] duration-300 md:duration-500 ${scrolled
                     ? isDark
                         ? 'bg-black/90 backdrop-blur-sm md:backdrop-blur-md border-b border-white/10 py-3 shadow-sm'
@@ -44,7 +48,7 @@ const Header = ({ theme }) => {
                         ? 'bg-transparent py-5'
                         : 'bg-white py-5'
                     }`}
-                style={{ willChange: 'background-color', transform: 'translateZ(0)' }}
+                style={{ transform: 'translateZ(0)' }}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center">
@@ -96,7 +100,7 @@ const Header = ({ theme }) => {
                     </div>
                 </div>
 
-            </motion.header>
+            </header>
 
             {/* Mobile Menu - Floating Glass Box */}
             <AnimatePresence>

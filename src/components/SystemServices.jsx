@@ -8,21 +8,36 @@ const isTouchDevice = typeof window !== 'undefined' && window.matchMedia('(hover
 const MagicCard = memo(({ icon: Icon, title, description, delay }) => {
     const cardRef = useRef(null);
     const spotlightRef = useRef(null);
+    const frameRef = useRef(0);
+    const pointerRef = useRef({ x: 0, y: 0 });
 
-    // PERFORMANCE: Use DOM manipulation instead of React state for mouse tracking
+    // PERFORMANCE: DOM manipulation instead of React state, coalesced with
+    // requestAnimationFrame so at most one layout read/style write per frame.
     const handleMouseMove = useCallback((e) => {
         if (isTouchDevice || !spotlightRef.current || !cardRef.current) return;
 
-        const rect = cardRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        pointerRef.current.x = e.clientX;
+        pointerRef.current.y = e.clientY;
+        if (frameRef.current) return;
 
-        // Direct DOM update - no React re-render
-        spotlightRef.current.style.background = `radial-gradient(400px circle at ${x}px ${y}px, rgba(99, 102, 241, 0.1), transparent 40%)`;
-        spotlightRef.current.style.opacity = '1';
+        frameRef.current = requestAnimationFrame(() => {
+            frameRef.current = 0;
+            if (!cardRef.current || !spotlightRef.current) return;
+            const rect = cardRef.current.getBoundingClientRect();
+            const x = pointerRef.current.x - rect.left;
+            const y = pointerRef.current.y - rect.top;
+
+            // Direct DOM update - no React re-render
+            spotlightRef.current.style.background = `radial-gradient(400px circle at ${x}px ${y}px, rgba(99, 102, 241, 0.1), transparent 40%)`;
+            spotlightRef.current.style.opacity = '1';
+        });
     }, []);
 
     const handleMouseLeave = useCallback(() => {
+        if (frameRef.current) {
+            cancelAnimationFrame(frameRef.current);
+            frameRef.current = 0;
+        }
         if (spotlightRef.current) {
             spotlightRef.current.style.opacity = '0';
         }

@@ -26,10 +26,10 @@ const ProblemSolution = () => {
                     {/* Interactive Toggle */}
                     <div className="flex justify-start lg:justify-end">
                         <div className="p-1.5 bg-zinc-100/80 rounded-full inline-flex relative shadow-inner">
-                            {/* PERFORMANCE: Use CSS transition instead of layoutId */}
+                            {/* PERFORMANCE: slide via transform (compositor) instead of animating `left` (layout) */}
                             <div
-                                className="absolute inset-y-1.5 bg-white rounded-full shadow-sm z-0 w-[calc(50%-6px)] transition-all duration-300 ease-out"
-                                style={{ left: activeTab === 'problem' ? '6px' : '50%' }}
+                                className="absolute inset-y-1.5 left-[6px] bg-white rounded-full shadow-sm z-0 w-[calc(50%-6px)] transition-transform duration-300 ease-out"
+                                style={{ transform: activeTab === 'problem' ? 'translateX(0%)' : 'translateX(100%)' }}
                             />
                             <button
                                 onClick={() => setActiveTab('problem')}
@@ -85,7 +85,8 @@ const ProblemSolution = () => {
                                     <div className="flex-1 w-full flex justify-center opacity-80 mix-blend-multiply">
                                         {/* Abstract visualisation of chaos */}
                                         <div className="relative w-64 h-64">
-                                            <div className="absolute inset-0 bg-red-200 rounded-full blur-3xl opacity-20 animate-pulse" />
+                                            {/* PERFORMANCE: pre-blurred radial gradient instead of live filter:blur */}
+                                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#fecaca_0%,rgba(254,202,202,0.6)_45%,transparent_72%)] opacity-20 animate-pulse" />
                                             <div className="grid grid-cols-2 gap-4 rotate-3">
                                                 <div className="bg-white p-4 rounded-xl shadow-lg border border-red-100 transform -rotate-6 translate-y-4">
                                                     <div className="h-2 w-12 bg-red-100 rounded mb-2" />
@@ -117,8 +118,8 @@ const ProblemSolution = () => {
                                 transition={{ duration: 0.4, ease: "easeOut" }}
                                 className="absolute inset-0 bg-gradient-to-br from-indigo-900 to-indigo-950 rounded-3xl border border-indigo-800 p-5 md:p-12 text-white overflow-hidden shadow-2xl"
                             >
-                                {/* Background glow */}
-                                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+                                {/* Background glow - PERFORMANCE: radial gradient replaces blur-[100px] */}
+                                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.2)_0%,rgba(99,102,241,0.12)_45%,transparent_72%)] -translate-y-1/2 translate-x-1/2" />
 
                                 <div className="relative z-10 h-full flex flex-col md:flex-row gap-12 items-center">
                                     <div className="flex-1 space-y-8">

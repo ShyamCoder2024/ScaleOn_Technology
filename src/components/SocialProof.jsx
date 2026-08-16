@@ -4,6 +4,7 @@ import { Quote } from 'lucide-react';
 import { Counter } from './ui/counter';
 
 import { cn } from '../lib/utils';
+import { useTheme } from '../lib/theme';
 
 const testimonials = [
     {
@@ -94,14 +95,16 @@ const TestimonialCard = memo(({ data, theme }) => (
 ));
 TestimonialCard.displayName = 'TestimonialCard';
 
-// PERFORMANCE: Use pure CSS animation instead of Framer Motion
+// PERFORMANCE: Use pure CSS animation instead of Framer Motion.
+// No permanent will-change/translateZ hints: the running transform animation
+// promotes the column to the compositor by itself, and the shared offscreen
+// pauser releases that GPU memory when the section scrolls away.
 const InfiniteColumn = memo(({ children, duration = 20, className = "", theme }) => (
     <div className={`relative overflow-hidden ${className}`}>
         <div
-            className="flex flex-col gpu-accel"
+            className="flex flex-col"
             style={{
                 animation: `scrollUp ${duration}s linear infinite`,
-                willChange: 'transform',
             }}
         >
             {children}
@@ -122,7 +125,8 @@ const InfiniteColumn = memo(({ children, duration = 20, className = "", theme })
 InfiniteColumn.displayName = 'InfiniteColumn';
 
 
-const SocialProof = ({ theme }) => {
+const SocialProof = () => {
+    const theme = useTheme();
     const list1 = testimonials.slice(0, 3);
     const list2 = testimonials.slice(3, 6);
     const list3 = testimonials.slice(6, 9);

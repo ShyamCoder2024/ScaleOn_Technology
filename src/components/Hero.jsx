@@ -1,15 +1,22 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useRef } from 'react';
+import { useInView } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { SplineScene } from './ui/SplineScene';
 
 const typingWords = ['Business Automation', 'AI Agents', 'SaaS Apps'];
 
 const Hero = memo(() => {
+    const sectionRef = useRef(null);
+    // PERFORMANCE: pause the typewriter's React updates once the hero is
+    // scrolled out of view; it resumes exactly where it left off.
+    const isInView = useInView(sectionRef);
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [displayText, setDisplayText] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
+        if (!isInView) return;
+
         const currentWord = typingWords[currentWordIndex];
         const typingSpeed = isDeleting ? 50 : 100;
 
@@ -31,16 +38,16 @@ const Hero = memo(() => {
         }, typingSpeed);
 
         return () => clearTimeout(timeout);
-    }, [displayText, isDeleting, currentWordIndex]);
+    }, [displayText, isDeleting, currentWordIndex, isInView]);
 
     return (
-        <section className="w-full px-4 py-6 md:py-10">
+        <section ref={sectionRef} className="w-full px-4 py-6 md:py-10">
             <div className="max-w-7xl mx-auto">
                 <div className="w-full bg-white relative overflow-hidden rounded-2xl md:rounded-3xl shadow-lg md:shadow-xl border border-gray-100">
 
                     <div className="flex flex-col md:flex-row">
                         {/* LEFT on Desktop / TOP on Mobile - 3D Robot */}
-                        <div className="w-full md:flex-1 h-[250px] sm:h-[320px] md:h-[550px] lg:h-[600px] relative z-10 bg-gradient-to-br from-slate-50 to-blue-50 will-change-transform" style={{ position: 'relative' }}>
+                        <div className="w-full md:flex-1 h-[250px] sm:h-[320px] md:h-[550px] lg:h-[600px] relative z-10 bg-gradient-to-br from-slate-50 to-blue-50" style={{ position: 'relative' }}>
                             <SplineScene
                                 scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
                                 className="w-full h-full"

@@ -102,10 +102,17 @@ const WhatWeDontDo = () => {
         "We don't build systems you can't understand."
     ];
 
+    // PERFORMANCE: inline SVG noise tile instead of fetching it from a
+    // third-party host - same grain, zero network requests.
+    const noiseTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256' viewBox='0 0 256 256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
+
     return (
         <section ref={sectionRef} className="py-16 md:py-32 text-white relative overflow-hidden">
             {/* Background Noise Texture */}
-            <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none brightness-100 contrast-150 mix-blend-overlay" />
+            <div
+                className="absolute inset-0 opacity-[0.03] pointer-events-none brightness-100 contrast-150 mix-blend-overlay"
+                style={{ backgroundImage: noiseTexture }}
+            />
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-20">
